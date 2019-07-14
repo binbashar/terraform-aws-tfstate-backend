@@ -7,9 +7,19 @@
 
 # Terraform Module: Terraform Backend
 
+<div align="right">
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend.png" alt="leverage" width="230"/>
+</div>
+
 ## Overview
 Terraform module to provision an S3 bucket to store terraform.tfstate file and a
 DynamoDB table to lock the state file to prevent concurrent modifications and state corruption.
+
+### AWS Org implementation example
+
+<div align="right">
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend-complete.png" alt="leverage" width="230"/>
+</div>
 
 ## Releases
 - **Versions:** `<= 0.x.y` (Terraform 0.11.x compatible)
@@ -35,11 +45,12 @@ DynamoDB table to lock the state file to prevent concurrent modifications and st
 
 ```terraform
 module "terraform_backend" {
-    source = "../path/to/this/module"
-
+    source = "git::git@github.com:binbashar/terraform-aws-tfstate-backend.git?ref=v0.0.2"
     bucket_name = "your-terraform-state-storage-s3"
-    bucket_description = "S3 Bucket for Terraform Remote State Storage"
+    bucket_description  = "S3 Bucket for ${var.profile} Terraform Remote State Storage"
     table_name = "your-terraform-state-lock-dynamo"
-    table_description = "DynamoDB for Terraform Remote State Locking"
+    table_description   = "DynamoDB for ${var.profile} Terraform Remote State Locking"
+    replication_region  = "us-east-2"
+    replication_profile = "${var.profile}"
 }
 ```

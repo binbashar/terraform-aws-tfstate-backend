@@ -6,17 +6,17 @@
 </div>
 
 # Terraform Module: Terraform Backend
+## Overview
+Terraform module to provision an S3 bucket to store terraform.tfstate file and a
+DynamoDB table to lock the state file to prevent concurrent modifications and state corruption.
 
 <div align="left">
   <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend.png" alt="leverage" width="330"/>
 </div>
 
-## Overview
-Terraform module to provision an S3 bucket to store terraform.tfstate file and a
-DynamoDB table to lock the state file to prevent concurrent modifications and state corruption.
-
 ### AWS Org implementation example
 
+We have a tfstate S3 Bucket per account 
 <div align="left">
   <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend-complete.png" alt="leverage" width="730"/>
 </div>

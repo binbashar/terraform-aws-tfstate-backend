@@ -49,15 +49,31 @@ DynamoDB table to lock the state file to prevent concurrent modifications and st
 | s3\_bucket\_id | S3 bucket ID |
 
 ## Usage
-
 ```terraform
-module "terraform_backend" {
-    source = "git::git@github.com:binbashar/terraform-aws-tfstate-backend.git?ref=v0.0.2"
-    bucket_name = "your-terraform-state-storage-s3"
-    bucket_description  = "S3 Bucket for ${var.profile} Terraform Remote State Storage"
-    table_name = "your-terraform-state-lock-dynamo"
-    table_description   = "DynamoDB for ${var.profile} Terraform Remote State Locking"
-    replication_region  = "us-east-2"
-    replication_profile = "${var.profile}"
+#
+# Terraform aws tfstate backend
+#
+module "terraform_state_backend" {
+  source        = "../../"
+  namespace     = "binbash"
+  stage         = "test"
+  name          = "terraform"
+  attributes    = ["state"]
+  region        = "us-east-1"
+}
+
+provider "aws" {
+  region = "us-east-1"
+  profile = "bb-dev-oaar"
+}
+
+output "s3_bucket_id" {
+  value       = module.terraform_state_backend.s3_bucket_id
+  description = "S3 bucket ID"
+}
+
+output "dynamodb_table_name" {
+  value       = module.terraform_state_backend.dynamodb_table_name
+  description = "DynamoDB table name"
 }
 ```

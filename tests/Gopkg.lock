@@ -10,7 +10,7 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:a0b4db50b9b3180ecdee4a24e8cf1765533f5b3f14f1ce97f23ec472e5d490de"
+  digest = "1:9a125bb28b817431abc860b051cf10f41febe7830749e6d460826c4e253994be"
   name = "github.com/gruntwork-io/terratest"
   packages = [
     "modules/collections",
@@ -23,8 +23,8 @@
     "modules/terraform",
   ]
   pruneopts = "UT"
-  revision = "14a766db13787cf19cab4703d9415481930854b1"
-  version = "v0.14.2"
+  revision = "03959c963394b6d4547f456f3eacaca0790c9c00"
+  version = "v0.17.5"
 
 [[projects]]
   digest = "1:0028cb19b2e4c3112225cd871870f2d9cf49b9b4276531f03438a88e94be86fe"
@@ -35,16 +35,19 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:972c2427413d41a1e06ca4897e8528e5a1622894050e2f527b38ddf0f343f759"
+  digest = "1:5da8ce674952566deae4dbc23d07c85caafc6cfa815b0b3e03e41979cedb8750"
   name = "github.com/stretchr/testify"
-  packages = ["assert"]
+  packages = [
+    "assert",
+    "require",
+  ]
   pruneopts = "UT"
   revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
   version = "v1.3.0"
 
 [[projects]]
   branch = "master"
-  digest = "1:6d0d109802ece494958ddf11f2100953b32315374326cf4e7519b9e874b4643f"
+  digest = "1:4d40045409ff4ad024dc87c28ea31ff4207b574764e0b8f6ee6dcbb3b420285a"
   name = "golang.org/x/crypto"
   packages = [
     "curve25519",
@@ -57,7 +60,7 @@
     "ssh/agent",
   ]
   pruneopts = "UT"
-  revision = "a1f597ede03a7bef967a422b5b3a5bd08805a01e"
+  revision = "4def268fd1a49955bfb3dda92fe3db4f924f2285"
 
 [[projects]]
   branch = "master"
@@ -65,18 +68,15 @@
   name = "golang.org/x/net"
   packages = ["context"]
   pruneopts = "UT"
-  revision = "5c2c250b6a70e39b74bb544433a348a892b10530"
+  revision = "da137c7871d730100384dbcf36e6f8fa493aef5b"
 
 [[projects]]
   branch = "master"
-  digest = "1:53df1464a35ecef619d5d29fc24427e34798c47c31f8a35ff709cb71b4009972"
+  digest = "1:9289797869517c73400e7b5a93beefbfc86e06f56e3ab03f38fb0d575e685277"
   name = "golang.org/x/sys"
-  packages = [
-    "cpu",
-    "unix",
-  ]
+  packages = ["cpu"]
   pruneopts = "UT"
-  revision = "fead79001313d15903fb4605b4a1b781532cd93e"
+  revision = "fae7ac547cb717d141c433a2a173315e216b64c4"
 
 [solve-meta]
   analyzer-name = "dep"

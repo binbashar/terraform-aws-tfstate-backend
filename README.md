@@ -16,7 +16,7 @@ DynamoDB table to lock the state file to prevent concurrent modifications and st
 
 ### AWS Org implementation example
 
-We have a tfstate S3 Bucket per account 
+We have a tfstate S3 Bucket per account
 <div align="left">
   <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend-complete.png" alt="leverage" width="730"/>
 </div>

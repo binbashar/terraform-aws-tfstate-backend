@@ -18,8 +18,8 @@ resource "aws_s3_bucket" "default" {
   }
 
   tags = {
-      Terraform = "true"
-      Environment = "var.stage"
+    Terraform   = "true"
+    Environment = "var.stage"
   }
 
 }
@@ -56,8 +56,8 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
   }
 
   tags = {
-      Terraform = "true"
-      Environment = "var.stage"
+    Terraform   = "true"
+    Environment = "var.stage"
   }
 }
 
@@ -81,8 +81,8 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
   }
 
   tags = {
-      Terraform = "true"
-      Environment = "var.stage"
+    Terraform   = "true"
+    Environment = "var.stage"
   }
 }
 

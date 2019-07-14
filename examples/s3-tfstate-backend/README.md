@@ -1,25 +1,7 @@
-<div align="center">
-    <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash.png" alt="drawing" width="350"/>
-</div>
-<div align="right">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-leverage-terraform.png" alt="leverage" width="230"/>
-</div>
-
 # Terraform Module: Terraform Backend
 ## Overview
 Terraform module to provision an S3 bucket to store terraform.tfstate file and a
 DynamoDB table to lock the state file to prevent concurrent modifications and state corruption.
-
-<div align="left">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend.png" alt="leverage" width="330"/>
-</div>
-
-### AWS Org implementation example
-
-We have a tfstate S3 Bucket per account
-<div align="left">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend-complete.png" alt="leverage" width="730"/>
-</div>
 
 ## Releases
 - **Versions:** `<= 0.x.y` (Terraform 0.11.x compatible)
@@ -69,30 +51,13 @@ We have a tfstate S3 Bucket per account
 ## Usage
 
 ```terraform
-#
-# Terraform aws tfstate backend
-#
-module "terraform_state_backend" {
-  source        = "../../"
-  namespace     = "binbash"
-  stage         = "test"
-  name          = "terraform"
-  attributes    = ["state"]
-  region        = "us-east-1"
-}
-
-provider "aws" {
-  region = "us-east-1"
-  profile = "bb-dev-oaar"
-}
-
-output "s3_bucket_id" {
-  value       = module.terraform_state_backend.s3_bucket_id
-  description = "S3 bucket ID"
-}
-
-output "dynamodb_table_name" {
-  value       = module.terraform_state_backend.dynamodb_table_name
-  description = "DynamoDB table name"
+module "terraform_backend" {
+    source = "git::git@github.com:binbashar/terraform-aws-tfstate-backend.git?ref=v0.0.2"
+    bucket_name = "your-terraform-state-storage-s3"
+    bucket_description  = "S3 Bucket for ${var.profile} Terraform Remote State Storage"
+    table_name = "your-terraform-state-lock-dynamo"
+    table_description   = "DynamoDB for ${var.profile} Terraform Remote State Locking"
+    replication_region  = "us-east-2"
+    replication_profile = "${var.profile}"
 }
 ```

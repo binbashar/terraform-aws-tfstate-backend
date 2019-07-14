@@ -1,4 +1,0 @@
-.terraform/
-tests/vendor/
-*.tfstate
-*.backup

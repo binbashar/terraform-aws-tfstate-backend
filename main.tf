@@ -17,6 +17,24 @@ resource "aws_s3_bucket" "default" {
     }
   }
 
+  dynamic "replication_configuration" {
+    for_each = var.bucket_replication_enabled ? ["true"] : []
+    content {
+      role = "${aws_iam_role.bucket_replication.arn}"
+
+      rules {
+        id     = "standard_bucket_replication"
+        prefix = ""
+        status = "Enabled"
+
+        destination {
+          bucket        = aws_s3_bucket.replication_bucket.arn
+          storage_class = "STANDARD"
+        }
+      }
+    }
+  }
+
   tags = {
     Terraform   = "true"
     Environment = var.stage

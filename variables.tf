@@ -119,3 +119,13 @@ variable "regex_replace_chars" {
   default     = "/[^a-zA-Z0-9-]/"
   description = "Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. By default only hyphens, letters and digits are allowed, all other chars are removed"
 }
+
+variable "bucket_replication_enabled" {
+  description = "TODO"
+  default     = false
+}
+
+variable "bucket_replication_region" {
+  description = "TODO"
+  default     = ""
+}

@@ -1,4 +1,6 @@
 resource "aws_s3_bucket" "replication_bucket" {
+  count = var.bucket_replication_enabled ? 1 : 0
+  
   bucket = format("%s-%s-%s-replica", var.namespace, var.stage, var.name)
   region = var.bucket_replication_region
 
@@ -21,6 +23,8 @@ resource "aws_s3_bucket" "replication_bucket" {
 }
 
 resource "aws_iam_role" "bucket_replication" {
+  count = var.bucket_replication_enabled ? 1 : 0
+  
   name = format("%s-%s-%s-bucket-replication", var.namespace, var.stage, var.name)
 
   assume_role_policy = <<POLICY
@@ -41,6 +45,8 @@ POLICY
 }
 
 resource "aws_iam_policy" "bucket_replication" {
+  count = var.bucket_replication_enabled ? 1 : 0
+  
   name = format("%s-%s-%s-bucket-replication", var.namespace, var.stage, var.name)
 
   policy = <<POLICY
@@ -73,7 +79,7 @@ resource "aws_iam_policy" "bucket_replication" {
         "s3:ReplicateDelete"
       ],
       "Effect": "Allow",
-      "Resource": "${aws_s3_bucket.replication_bucket.arn}/*"
+      "Resource": "${aws_s3_bucket.replication_bucket[0].arn}/*"
     }
   ]
 }
@@ -81,7 +87,9 @@ POLICY
 }
 
 resource "aws_iam_policy_attachment" "bucket_replication" {
+  count = var.bucket_replication_enabled ? 1 : 0
+  
   name       = format("%s-%s-%s-role-policy-attachment", var.namespace, var.stage, var.name)
-  roles      = [ aws_iam_role.bucket_replication.name ]
-  policy_arn = aws_iam_policy.bucket_replication.arn
+  roles      = [ aws_iam_role.bucket_replication[0].name ]
+  policy_arn = aws_iam_policy.bucket_replication[0].arn
 }

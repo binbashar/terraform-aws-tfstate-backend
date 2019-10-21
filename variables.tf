@@ -121,11 +121,11 @@ variable "regex_replace_chars" {
 }
 
 variable "bucket_replication_enabled" {
-  description = "TODO"
+  description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
   default     = false
 }
 
 variable "bucket_replication_region" {
-  description = "TODO"
+  description = "Region for replica bucket, same region or cross region could be used."
   default     = ""
 }

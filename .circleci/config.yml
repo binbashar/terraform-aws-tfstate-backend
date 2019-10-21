@@ -85,7 +85,7 @@ jobs:
 
       - run:
           name: Test AWS permissions
-          command: aws ec2 describe-instances --account-id $AWS_ACCOUNT_ID_DEV --profile $AWS_PROFILE_NAME
+          command: aws ec2 describe-instances --profile $AWS_PROFILE_NAME
 
       - run:
           name: test3-terratests-dep-init

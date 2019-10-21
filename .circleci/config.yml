@@ -33,7 +33,7 @@ jobs:
       - run:
           name: test2-terraform-linting
           command: |
-            if make lint | grep 'Awesome! Your code is following the best practices'; then
+            if make lint-deep | grep 'Awesome! Your code is following the best practices'; then
               echo "==============================================================================================="
               echo " PASSED - Awesome! Your code is following the best practices                                   "
               echo "==============================================================================================="

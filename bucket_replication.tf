@@ -1,14 +1,14 @@
 provider "aws" {
   version = "~> 2.24"
-  region = var.bucket_replication_region
-  alias  = "replication_region"
+  region  = var.bucket_replication_region
+  alias   = "replication_region"
   profile = var.bucket_replication_profile
 }
 
 resource "aws_s3_bucket" "replication_bucket" {
   count = var.bucket_replication_enabled ? 1 : 0
-  
-  bucket = format("%s-%s-%s-replica", var.namespace, var.stage, var.name)
+
+  bucket   = format("%s-%s-%s-replica", var.namespace, var.stage, var.name)
   provider = "aws.replication_region"
 
   versioning {
@@ -22,7 +22,7 @@ resource "aws_s3_bucket" "replication_bucket" {
       }
     }
   }
-  
+
   tags = {
     Terraform   = "true"
     Environment = var.stage
@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "replication_bucket" {
 
 resource "aws_iam_role" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
-  
+
   name = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
 
   assume_role_policy = <<POLICY
@@ -53,7 +53,7 @@ POLICY
 
 resource "aws_iam_policy" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
-  
+
   name = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
 
   policy = <<POLICY
@@ -95,8 +95,8 @@ POLICY
 
 resource "aws_iam_policy_attachment" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
-  
+
   name       = format("%s-%s-%s-role-policy-attachment", var.namespace, var.stage, var.name)
-  roles      = [ aws_iam_role.bucket_replication[0].name ]
+  roles      = [aws_iam_role.bucket_replication[0].name]
   policy_arn = aws_iam_policy.bucket_replication[0].arn
 }

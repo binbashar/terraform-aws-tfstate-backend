@@ -130,7 +130,6 @@ variable "bucket_replication_region" {
   default     = ""
 }
 
-
 variable "bucket_replication_profile" {
   description = "AWS profile for replica bucket"
   default     = ""

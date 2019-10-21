@@ -8,8 +8,8 @@ import (
 )
 
 func TestBucketAndTableExist(t *testing.T) {
-    expectedBucketName := "binbash-test-terraform"
-	expectedDynamoDbTableName := "binbash-test-terraform"
+    expectedBucketName := "bb-test-terraform"
+	expectedDynamoDbTableName := "bb-test-terraform"
 
 	terraformOptions := &terraform.Options {
 		// The path to where our Terraform code is located

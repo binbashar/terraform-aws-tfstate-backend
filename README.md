@@ -23,10 +23,10 @@ We have a tfstate S3 Bucket per account
 
 ## Releases
 - **Versions:** `<= 0.x.y` (Terraform 0.11.x compatible)
-    - eg: https://registry.terraform.io/modules/binbashar/ec2-jenkins-vault/aws/0.0.1
+    - eg: https://registry.terraform.io/modules/binbashar/tfstate-backend/aws/0.0.1
 
 - **Versions:** `>= 1.x.y` (Terraform 0.12.x compatible -> **WIP**)
-    - eg: https://registry.terraform.io/modules/binbashar/ec2-jenkins-vault/aws/1.0.0
+    - eg: https://registry.terraform.io/modules/binbashar/tfstate-backend/aws/1.0.0
 
 ## Inputs
 
@@ -37,6 +37,9 @@ We have a tfstate S3 Bucket per account
 | attributes | Additional attributes (e.g. `state`) | list | `<list>` | no |
 | block\_public\_acls | Whether Amazon S3 should block public ACLs for this bucket. | string | `"false"` | no |
 | block\_public\_policy | Whether Amazon S3 should block public bucket policies for this bucket. | string | `"false"` | no |
+| bucket\_replication\_enabled | Enable/Disable replica for S3 bucket (for cross region replication purpose) | string | `"false"` | no |
+| bucket\_replication\_profile | AWS profile for replica bucket | string | `""` | no |
+| bucket\_replication\_region | Region for replica bucket, same region or cross region could be used. | string | `""` | no |
 | context | Default context to use for passing state between label invocations | map | `<map>` | no |
 | delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes` | string | `"-"` | no |
 | enable\_server\_side\_encryption | Enable DynamoDB server-side encryption | string | `"true"` | no |
@@ -96,3 +99,28 @@ output "dynamodb_table_name" {
   description = "DynamoDB table name"
 }
 ```
+
+# Release Management
+
+## Docker based makefile commands
+- https://cloud.docker.com/u/binbash/repository/docker/binbash/git-release
+- https://github.com/binbashar/terraform-aws-tfstate-backend/blob/master/Makefile
+
+Root directory `Makefile` has the automated steps (to be integrated with **CircleCI jobs** []() )
+
+### CircleCi PR auto-release job
+<div align="left">
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/circleci.png" alt="leverage-circleci" width="230"/>
+</div>
+
+- https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend
+- **NOTE:** Will only run after merged PR.
+
+### Manual execution from workstation
+```
+$ make
+Available Commands:
+ - release-major-with-changelog make changelog-major && git add && git commit && make release-major
+ - release-minor-with-changelog make changelog-minor && git add && git commit && make release-minor
+ - release-patch-with-changelog make changelog-patch && git add && git commit && make release-patch
+ ```

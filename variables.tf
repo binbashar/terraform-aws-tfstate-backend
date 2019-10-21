@@ -119,3 +119,19 @@ variable "regex_replace_chars" {
   default     = "/[^a-zA-Z0-9-]/"
   description = "Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. By default only hyphens, letters and digits are allowed, all other chars are removed"
 }
+
+variable "bucket_replication_enabled" {
+  description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
+  default     = false
+}
+
+variable "bucket_replication_region" {
+  description = "Region for replica bucket, same region or cross region could be used."
+  default     = ""
+}
+
+
+variable "bucket_replication_profile" {
+  description = "AWS profile for replica bucket"
+  default     = ""
+}

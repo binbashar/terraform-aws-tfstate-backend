@@ -23,27 +23,20 @@
 #}
 
 module "terraform_state_backend" {
-  source        = "../../"
-  namespace     = "binbash"
-  stage         = "test"
-  name          = "terraform"
-  attributes    = ["state"]
-  region        = "us-east-1"
+  source                        = "../../"
+  namespace                     = var.namespace
+  environment                   = var.environment
+  stage                         = var.stage
+  name                          = var.name
+  attributes                    = var.attributes
+  region                        = var.region
+  bucket_replication_enabled    = var.bucket_replication_enabled
+  bucket_replication_region     = var.bucket_replication_region
+  bucket_replication_profile    = var.bucket_replication_profile
+  acl                           = var.acl
+  block_public_acls             = var.block_public_acls
+  block_public_policy           = var.block_public_policy
+  enable_server_side_encryption = var.enable_server_side_encryption
+  restrict_public_buckets       = var.restrict_public_buckets
+  tags                          = var.tags
 }
-
-provider "aws" {
-  region = "us-east-1"
-  profile = "bb-dev-oaar"
-}
-
-output "s3_bucket_id" {
-  value       = module.terraform_state_backend.s3_bucket_id
-  description = "S3 bucket ID"
-}
-
-output "dynamodb_table_name" {
-  value       = module.terraform_state_backend.dynamodb_table_name
-  description = "DynamoDB table name"
-}
-
-

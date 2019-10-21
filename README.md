@@ -25,7 +25,7 @@ We have a tfstate S3 Bucket per account
 - **Versions:** `<= 0.x.y` (Terraform 0.11.x compatible)
     - eg: https://registry.terraform.io/modules/binbashar/tfstate-backend/aws/0.0.1
 
-- **Versions:** `>= 1.x.y` (Terraform 0.12.x compatible -> **WIP**)
+- **Versions:** `>= 1.x.y` (Terraform 0.12.x compatible)
     - eg: https://registry.terraform.io/modules/binbashar/tfstate-backend/aws/1.0.0
 
 ## Inputs

@@ -129,3 +129,9 @@ variable "bucket_replication_region" {
   description = "Region for replica bucket, same region or cross region could be used."
   default     = ""
 }
+
+
+variable "bucket_replication_profile" {
+  description = "AWS profile for replica bucket"
+  default     = ""
+}

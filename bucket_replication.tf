@@ -1,8 +1,15 @@
+provider "aws" {
+  version = "~> 2.24"
+  region = var.bucket_replication_region
+  alias  = "replication_region"
+  profile = var.bucket_replication_profile
+}
+
 resource "aws_s3_bucket" "replication_bucket" {
   count = var.bucket_replication_enabled ? 1 : 0
   
   bucket = format("%s-%s-%s-replica", var.namespace, var.stage, var.name)
-  region = var.bucket_replication_region
+  provider = "aws.replication_region"
 
   versioning {
     enabled = true
@@ -25,7 +32,7 @@ resource "aws_s3_bucket" "replication_bucket" {
 resource "aws_iam_role" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
   
-  name = format("%s-%s-%s-bucket-replication", var.namespace, var.stage, var.name)
+  name = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
 
   assume_role_policy = <<POLICY
 {
@@ -47,7 +54,7 @@ POLICY
 resource "aws_iam_policy" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
   
-  name = format("%s-%s-%s-bucket-replication", var.namespace, var.stage, var.name)
+  name = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
 
   policy = <<POLICY
 {

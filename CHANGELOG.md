@@ -2,6 +2,12 @@
 ## [Unreleased]
 
 
+<a name="v1.0.4"></a>
+## [v1.0.4] - 2020-01-09
+### Pull Requests
+- Merge pull request [#5](https://github.com/binbashar/terraform-tfstate-backend/issues/5) from binbashar/BBL-167-ref-arch-tf0.12-migration
+
+
 <a name="v1.0.3"></a>
 ## [v1.0.3] - 2019-10-21
 ### Pull Requests
@@ -32,7 +38,8 @@
 <a name="v0.0.1"></a>
 ## v0.0.1 - 2019-07-14
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.4...HEAD
+[v1.0.4]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.3...v1.0.4
 [v1.0.3]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.2...v1.0.3
 [v1.0.2]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.1...v1.0.2
 [v1.0.1]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.0...v1.0.1

@@ -9,7 +9,7 @@ resource "aws_s3_bucket" "replication_bucket" {
   count = var.bucket_replication_enabled ? 1 : 0
 
   bucket   = format("%s-%s-%s-replica", var.namespace, var.stage, var.name)
-  provider = "aws.replication_region"
+  provider = aws.replication_region
 
   versioning {
     enabled = true

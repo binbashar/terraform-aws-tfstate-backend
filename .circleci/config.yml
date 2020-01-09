@@ -10,7 +10,7 @@ jobs:
       # This job has been blocked because Docker Layer Caching is not available on your plan.
       # Please upgrade to continue building.
       # Note: you will need to push a new commit or call the API to rerun the pipeline.
-      #docker_layer_caching: true
+      docker_layer_caching: false
 
     steps:
       - checkout
@@ -34,24 +34,32 @@ jobs:
             fi
 
       - run:
-          name: test2-terraform-linting
+          name: Configure awscli
           command: |
-            if make lint-deep | grep 'Awesome! Your code is following the best practices'; then
-              echo "==============================================================================================="
-              echo " PASSED - Awesome! Your code is following the best practices                                   "
-              echo "==============================================================================================="
-            else
-              echo "==============================================================================================="
-              echo " NOT PASSED - Terraform lint needed                                                            "
-              echo "==============================================================================================="
-            fi
+            echo "AWS_ACCESS_KEY_ID - $AWS_ACCESS_KEY_ID"
+            echo "AWS_PROFILE_NAME - $AWS_PROFILE_NAME"
+
+            # AWS defautl awscli profile
+            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            aws configure set region us-east-1
+            aws configure set output json
+
+            # AWS dev awscli profile
+            aws configure set role_arn arn:aws:iam::$AWS_ACCOUNT_ID_SHARED:role/DeployMaster --profile $AWS_PROFILE_NAME
+            aws configure set source_profile default --profile $AWS_PROFILE_NAME
+
+      - run:
+          name: test2-terraform-linting
+          command: make tflint-deep
+
   #
   # Test 3
   #
   test-e2e-terratests:
     machine:
       image: ubuntu-1604:201903-01
-      #docker_layer_caching: true
+      docker_layer_caching: false
 
     steps:
       - checkout
@@ -80,8 +88,8 @@ jobs:
             aws configure set role_arn arn:aws:iam::$AWS_ACCOUNT_ID_DEV:role/DeployMaster --profile $AWS_PROFILE_NAME
             aws configure set source_profile default --profile $AWS_PROFILE_NAME
 
-#      - run: cat ~/.aws/credentials
-#      - run: cat ~/.aws/config
+      # - run: cat ~/.aws/credentials
+      # - run: cat ~/.aws/config
 
       - run:
           name: Test AWS permissions
@@ -101,7 +109,7 @@ jobs:
   release-patch-with-changelog:
     machine:
       image: ubuntu-1604:201903-01
-      #docker_layer_caching: true
+      docker_layer_caching: false
 
     steps:
       - checkout
@@ -119,7 +127,7 @@ jobs:
               echo "==============================================================================================="
               git config --global user.email "$GIT_USER_EMAIL"
               git config --global user.name "$GIT_USER_NAME"
-              make release-patch-with-changelog-circleci
+              make -f Makefile.release release-patch-with-changelog-circleci
             else
               echo "==============================================================================================="
               echo "Changes in working directory pending to be pushed - please check 'git status' cmd output below "
@@ -127,12 +135,13 @@ jobs:
               echo "$(git status)"
               echo "==============================================================================================="
             fi
+
 #
 # Jobs workflow
 #
 workflows:
   version: 2
-  changelog_and_release:
+  test_and_release:
     jobs:
       - test-static-code-and-linting:
           context: binbashar-org-global-context

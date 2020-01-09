@@ -21,17 +21,7 @@ jobs:
 
       - run:
           name: test1-terraform-format
-          command: |
-            if [[ $(make format| tail -n +2) ]]; then
-              echo "==================================================================================================="
-              echo " NOT PASSED - There are Terraform conf files that needs a canonical format and styleto be formated "
-              echo "==================================================================================================="
-              exit 1
-            else
-              echo "==================================================================================================="
-              echo " PASSED - All Terraform conf files already have canonical format and are correcyly styled          "
-              echo "==================================================================================================="
-            fi
+          command: make format-check
 
       - run:
           name: Configure awscli

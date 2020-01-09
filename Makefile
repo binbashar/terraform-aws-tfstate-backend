@@ -63,6 +63,9 @@ version: ## Show terraform version
 format: ## The terraform fmt is used to rewrite tf conf files to a canonical format and style.
 	${TF_CMD_PREFIX} fmt ${TF_PWD_CONT_DIR}
 
+format-check: ## The terraform fmt is used to rewrite tf conf files to a canonical format and style.
+	${TF_CMD_PREFIX} fmt -check ${TF_PWD_CONT_DIR}
+
 terraform-docs: ## A utility to generate documentation from Terraform 0.12 modules in various output formats.
 	docker run --rm \
   	-v $$(pwd):/data \

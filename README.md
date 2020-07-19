@@ -75,28 +75,50 @@ We have a tfstate S3 Bucket per account
 #
 # Terraform aws tfstate backend
 #
-module "terraform_state_backend" {
+provider "aws" {
+  region  = "us-east-1
+  alias   = "main_region"
+}
+
+provider "aws" {
+  region  = "us-west-1"
+  alias   = "secondary_region"
+}
+
+# The following creates a Terraform State Backend with Bucket Replication enabled
+module "terraform_state_backend_with_replication" {
   source        = "../../"
   namespace     = "binbash"
   stage         = "test"
   name          = "terraform"
   attributes    = ["state"]
   region        = "us-east-1"
+
+  bucket_replication_enabled = true
+
+  providers = {
+    aws.main_region = aws.main_region
+    aws.secondary_region = aws.secondary_region
+  }
 }
 
-provider "aws" {
-  region = "us-east-1"
-  profile = "bb-dev-oaar"
-}
+# The module below creates a Terraform State Backend without bucket replication
+module "terraform_state_backend" {
+  source        = "../../"
+  namespace     = "binbash"
+  stage         = "test"
+  name          = "terraform-test"
+  attributes    = ["state"]
+  region        = "us-east-1"
 
-output "s3_bucket_id" {
-  value       = module.terraform_state_backend.s3_bucket_id
-  description = "S3 bucket ID"
-}
+  # By default replication is disabled but it shows below for the sake of the example
+  bucket_replication_enabled = false
 
-output "dynamodb_table_name" {
-  value       = module.terraform_state_backend.dynamodb_table_name
-  description = "DynamoDB table name"
+  # Notice that even though replication is not enabled, we still need to pass a secondary_region provider
+  providers = {
+    aws.main_region = aws.main_region
+    aws.secondary_region = aws.main_region
+  }
 }
 ```
 

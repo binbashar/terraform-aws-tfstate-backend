@@ -37,9 +37,9 @@ module "terraform_state_backend" {
   enable_server_side_encryption = var.enable_server_side_encryption
   restrict_public_buckets       = var.restrict_public_buckets
   tags                          = var.tags
-  
+
   providers = {
-    aws.main_region = aws.main_region
+    aws.main_region      = aws.main_region
     aws.secondary_region = aws.secondary_region
   }
 }

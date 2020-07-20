@@ -27,36 +27,33 @@ We have a tfstate S3 Bucket per account
 
 - **Versions:** `>= 1.x.y` (Terraform 0.12.x compatible)
     - eg: https://registry.terraform.io/modules/binbashar/tfstate-backend/aws/1.0.0
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| region | AWS Region the S3 bucket should reside in | string | n/a | yes |
 | acl | The canned ACL to apply to the S3 bucket | string | `"private"` | no |
-| additional\_tag\_map | Additional tags for appending to each tag map | map | `<map>` | no |
-| attributes | Additional attributes (e.g. `state`) | list | `<list>` | no |
-| block\_public\_acls | Whether Amazon S3 should block public ACLs for this bucket. | string | `"false"` | no |
-| block\_public\_policy | Whether Amazon S3 should block public bucket policies for this bucket. | string | `"false"` | no |
-| bucket\_replication\_enabled | Enable/Disable replica for S3 bucket (for cross region replication purpose) | string | `"false"` | no |
-| bucket\_replication\_profile | AWS profile for replica bucket | string | `""` | no |
-| bucket\_replication\_region | Region for replica bucket, same region or cross region could be used. | string | `""` | no |
-| context | Default context to use for passing state between label invocations | map | `<map>` | no |
+| additional\_tag\_map | Additional tags for appending to each tag map | map(string) | `{}` | no |
+| attributes | Additional attributes (e.g. `state`) | list(string) | `[ "state" ]` | no |
+| block\_public\_acls | Whether Amazon S3 should block public ACLs for this bucket. | bool | `"false"` | no |
+| block\_public\_policy | Whether Amazon S3 should block public bucket policies for this bucket. | bool | `"false"` | no |
+| bucket\_replication\_enabled | Enable/Disable replica for S3 bucket (for cross region replication purpose) | bool | `"false"` | no |
+| context | Default context to use for passing state between label invocations | map(string) | `{}` | no |
 | delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes` | string | `"-"` | no |
-| enable\_server\_side\_encryption | Enable DynamoDB server-side encryption | string | `"true"` | no |
+| enable\_server\_side\_encryption | Enable DynamoDB server-side encryption | bool | `"true"` | no |
 | environment | Environment, e.g. 'prod', 'staging', 'dev', 'pre-prod', 'UAT' | string | `""` | no |
-| force\_destroy | A boolean that indicates the S3 bucket can be destroyed even if it contains objects. These objects are not recoverable | string | `"false"` | no |
-| ignore\_public\_acls | Whether Amazon S3 should ignore public ACLs for this bucket. | string | `"false"` | no |
-| label\_order | The naming order of the id output and Name tag | list | `<list>` | no |
-| mfa\_delete | A boolean that indicates that versions of S3 objects can only be deleted with MFA. ( Terraform cannot apply changes of this value; https://github.com/terraform-providers/terraform-provider-aws/issues/629 ) | string | `"false"` | no |
+| force\_destroy | A boolean that indicates the S3 bucket can be destroyed even if it contains objects. These objects are not recoverable | bool | `"false"` | no |
+| ignore\_public\_acls | Whether Amazon S3 should ignore public ACLs for this bucket. | bool | `"false"` | no |
+| label\_order | The naming order of the id output and Name tag | list(string) | `[]` | no |
+| mfa\_delete | A boolean that indicates that versions of S3 objects can only be deleted with MFA. ( Terraform cannot apply changes of this value; https://github.com/terraform-providers/terraform-provider-aws/issues/629 ) | bool | `"false"` | no |
 | name | Solution name, e.g. 'app' or 'jenkins' | string | `"terraform"` | no |
 | namespace | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | string | `""` | no |
-| read\_capacity | DynamoDB read capacity units | string | `"5"` | no |
+| read\_capacity | DynamoDB read capacity units | number | `"5"` | no |
 | regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. By default only hyphens, letters and digits are allowed, all other chars are removed | string | `"/[^a-zA-Z0-9-]/"` | no |
-| region | AWS Region the S3 bucket should reside in | string | n/a | yes |
-| restrict\_public\_buckets | Whether Amazon S3 should restrict public bucket policies for this bucket. | string | `"false"` | no |
+| restrict\_public\_buckets | Whether Amazon S3 should restrict public bucket policies for this bucket. | bool | `"false"` | no |
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | string | `""` | no |
-| tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | map | `<map>` | no |
-| write\_capacity | DynamoDB write capacity units | string | `"5"` | no |
+| tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | map(string) | `{}` | no |
+| write\_capacity | DynamoDB write capacity units | number | `"5"` | no |
 
 ## Outputs
 
@@ -75,28 +72,50 @@ We have a tfstate S3 Bucket per account
 #
 # Terraform aws tfstate backend
 #
-module "terraform_state_backend" {
+provider "aws" {
+  region  = "us-east-1
+  alias   = "main_region"
+}
+
+provider "aws" {
+  region  = "us-west-1"
+  alias   = "secondary_region"
+}
+
+# The following creates a Terraform State Backend with Bucket Replication enabled
+module "terraform_state_backend_with_replication" {
   source        = "../../"
   namespace     = "binbash"
   stage         = "test"
   name          = "terraform"
   attributes    = ["state"]
   region        = "us-east-1"
+
+  bucket_replication_enabled = true
+
+  providers = {
+    aws.main_region = aws.main_region
+    aws.secondary_region = aws.secondary_region
+  }
 }
 
-provider "aws" {
-  region = "us-east-1"
-  profile = "bb-dev-oaar"
-}
+# The module below creates a Terraform State Backend without bucket replication
+module "terraform_state_backend" {
+  source        = "../../"
+  namespace     = "binbash"
+  stage         = "test"
+  name          = "terraform-test"
+  attributes    = ["state"]
+  region        = "us-east-1"
 
-output "s3_bucket_id" {
-  value       = module.terraform_state_backend.s3_bucket_id
-  description = "S3 bucket ID"
-}
+  # By default replication is disabled but it shows below for the sake of the example
+  bucket_replication_enabled = false
 
-output "dynamodb_table_name" {
-  value       = module.terraform_state_backend.dynamodb_table_name
-  description = "DynamoDB table name"
+  # Notice that even though replication is not enabled, we still need to pass a secondary_region provider
+  providers = {
+    aws.main_region = aws.main_region
+    aws.secondary_region = aws.main_region
+  }
 }
 ```
 
@@ -116,11 +135,6 @@ Root directory `Makefile` has the automated steps (to be integrated with **Circl
 - https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend
 - **NOTE:** Will only run after merged PR.
 
-### Manual execution from workstation
-```
-$ make
-Available Commands:
- - release-major-with-changelog make changelog-major && git add && git commit && make release-major
- - release-minor-with-changelog make changelog-minor && git add && git commit && make release-minor
- - release-patch-with-changelog make changelog-patch && git add && git commit && make release-patch
- ```
+- [**pipeline-job**](https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend) (**NOTE:** Will only run after merged PR)
+- [**releases**](https://github.com/binbashar/terraform-aws-tfstate-backend/releases)
+- [**changelog**](https://github.com/binbashar/terraform-aws-tfstate-backend/blob/master/CHANGELOG.md)

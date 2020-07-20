@@ -1,4 +1,6 @@
 resource "aws_s3_bucket" "default" {
+  provider = aws.main_region
+
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
   acl           = var.acl
   region        = var.region
@@ -43,6 +45,7 @@ resource "aws_s3_bucket" "default" {
 }
 
 resource "aws_s3_bucket_public_access_block" "default" {
+  provider                = aws.main_region
   bucket                  = aws_s3_bucket.default.id
   block_public_acls       = var.block_public_acls
   ignore_public_acls      = var.ignore_public_acls
@@ -51,7 +54,9 @@ resource "aws_s3_bucket_public_access_block" "default" {
 }
 
 resource "aws_dynamodb_table" "with_server_side_encryption" {
-  count          = var.enable_server_side_encryption == "true" ? 1 : 0
+  count = var.enable_server_side_encryption == "true" ? 1 : 0
+
+  provider       = aws.main_region
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
   read_capacity  = var.read_capacity
   write_capacity = var.write_capacity
@@ -80,7 +85,9 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
 }
 
 resource "aws_dynamodb_table" "without_server_side_encryption" {
-  count          = var.enable_server_side_encryption == "true" ? 0 : 1
+  count = var.enable_server_side_encryption == "true" ? 0 : 1
+
+  provider       = aws.main_region
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
   read_capacity  = var.read_capacity
   write_capacity = var.write_capacity

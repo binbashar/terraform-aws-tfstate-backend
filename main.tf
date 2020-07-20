@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "default" {
-  provider      = aws.main_region
+  provider = aws.main_region
 
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
   acl           = var.acl
@@ -54,13 +54,13 @@ resource "aws_s3_bucket_public_access_block" "default" {
 }
 
 resource "aws_dynamodb_table" "with_server_side_encryption" {
-  count           = var.enable_server_side_encryption == "true" ? 1 : 0
+  count = var.enable_server_side_encryption == "true" ? 1 : 0
 
-  provider        = aws.main_region
-  name            = format("%s-%s-%s", var.namespace, var.stage, var.name)
-  read_capacity   = var.read_capacity
-  write_capacity  = var.write_capacity
-  hash_key        = "LockID" # https://www.terraform.io/docs/backends/types/s3.html#dynamodb_table
+  provider       = aws.main_region
+  name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
+  read_capacity  = var.read_capacity
+  write_capacity = var.write_capacity
+  hash_key       = "LockID" # https://www.terraform.io/docs/backends/types/s3.html#dynamodb_table
 
   server_side_encryption {
     enabled = true
@@ -85,13 +85,13 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
 }
 
 resource "aws_dynamodb_table" "without_server_side_encryption" {
-  count           = var.enable_server_side_encryption == "true" ? 0 : 1
+  count = var.enable_server_side_encryption == "true" ? 0 : 1
 
-  provider        = aws.main_region
-  name            = format("%s-%s-%s", var.namespace, var.stage, var.name)
-  read_capacity   = var.read_capacity
-  write_capacity  = var.write_capacity
-  hash_key        = "LockID"
+  provider       = aws.main_region
+  name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
+  read_capacity  = var.read_capacity
+  write_capacity = var.write_capacity
+  hash_key       = "LockID"
 
   lifecycle {
     ignore_changes = [

@@ -115,11 +115,7 @@ jobs:
           command: pwd && ls -ltra && git branch
 
       - run:
-<<<<<<< HEAD
-          name: release-$VERSION_NUMBER-with-changelog-circleci
-=======
           name: Release New Version
->>>>>>> master
           command: |
             if git status | grep 'nothing to commit, working tree clean'; then
               echo "==============================================================================================="

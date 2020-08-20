@@ -135,17 +135,6 @@ Root directory `Makefile` has the automated steps (to be integrated with **Circl
 - https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend
 - **NOTE:** Will only run after merged PR.
 
-<<<<<<< HEAD
-### Manual execution from workstation
-```
-$ make
-Available Commands:
- - release-major-with-changelog make changelog-major && git add && git commit && make release-major
- - release-minor-with-changelog make changelog-minor && git add && git commit && make release-minor
-  - release-patch-with-changelog make changelog-patch && git add && git commit && make release-patch
- ```
-=======
 - [**pipeline-job**](https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend) (**NOTE:** Will only run after merged PR)
 - [**releases**](https://github.com/binbashar/terraform-aws-tfstate-backend/releases)
 - [**changelog**](https://github.com/binbashar/terraform-aws-tfstate-backend/blob/master/CHANGELOG.md)
->>>>>>> master

@@ -84,11 +84,7 @@ version: ## Show terraform version
 	-t ${TF_DOCKER_IMAGE}:${TF_VER} version
 
 format: ## The terraform fmt is used to rewrite tf conf files to a canonical format and style.
-<<<<<<< HEAD
-	${TF_CMD_PREFIX} fmt
-=======
 	${TF_CMD_PREFIX} fmt -recursive
->>>>>>> master
 
 format-check: ## The terraform fmt is used to rewrite tf conf files to a canonical format and style.
 	${TF_CMD_PREFIX} fmt -check -recursive

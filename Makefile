@@ -69,7 +69,7 @@ format-check: ## The terraform fmt is used to rewrite tf conf files to a canonic
 terraform-docs: ## A utility to generate documentation from Terraform 0.12 modules in various output formats.
 	docker run --rm \
   	-v $$(pwd):/data \
-  	cytopia/terraform-docs:0.6.0 \
+  	cytopia/terraform-docs:0.8.0 \
   	terraform-docs-012 --sort-inputs-by-required --with-aggregate-type-defaults markdown table .
 
 tflint: ## TFLint is a Terraform linter for detecting errors that can not be detected by terraform plan (tf0.12 > 0.10.x).

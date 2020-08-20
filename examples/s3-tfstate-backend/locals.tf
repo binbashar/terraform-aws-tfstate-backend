@@ -2,6 +2,6 @@ locals {
   tags = {
     Name        = "infra-tfstate-backend-test"
     Terraform   = "true"
-    Environment = "${var.environment}"
+    Environment = var.environment
   }
 }

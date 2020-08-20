@@ -1,9 +1,9 @@
 .PHONY: help
-SHELL := /bin/bash
-LOCAL_OS_USER := $(shell whoami)
-LOCAL_OS_SSH_DIR := ~/.ssh
+SHELL                 := /bin/bash
+LOCAL_OS_USER         := $(shell whoami)
+LOCAL_OS_SSH_DIR      := ~/.ssh
 LOCAL_OS_GIT_CONF_DIR := ~/.gitconfig
-LOCAL_PWD_DIR := $(shell pwd)
+LOCAL_PWD_DIR         := $(shell pwd)
 
 #
 # GIT-RELEASE
@@ -27,7 +27,11 @@ help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf " - \033[36m%-18s\033[0m %s\n", $$1, $$2}'
 
 #==============================================================#
+<<<<<<< HEAD
 # GIT RELEASE 												                         #
+=======
+# GIT RELEASE                                                  #
+>>>>>>> master
 #==============================================================#
 
 #===================================#
@@ -136,7 +140,11 @@ release-major-with-changelog: ## make -f Makefile.release changelog-major && git
 	fi
 
 #==============================================================#
+<<<<<<< HEAD
 # CHANGELOG   												                         #
+=======
+# CHANGELOG                                                    #
+>>>>>>> master
 #==============================================================#
 changelog-init: ## git-chglog (https://github.com/git-chglog/git-chglog) config initialization -> ./.chglog
 	@if [ ! -d ./.chglog ]; then\
@@ -173,5 +181,3 @@ changelog-major: ## git-chglog generation for major release
 	sudo chown -R ${LOCAL_OS_USER}:${LOCAL_OS_USER} ./.chglog
 	sudo chown -R ${LOCAL_OS_USER}:${LOCAL_OS_USER} ./.git
 	sudo chown -R ${LOCAL_OS_USER}:${LOCAL_OS_USER} ./CHANGELOG.md
-
-

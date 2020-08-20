@@ -134,15 +134,3 @@ variable "bucket_replication_enabled" {
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
   default     = false
 }
-
-variable "bucket_replication_region" {
-  type        = string
-  description = "Region for replica bucket, same region or cross region could be used."
-  default     = ""
-}
-
-variable "bucket_replication_profile" {
-  type        = string
-  description = "AWS profile for replica bucket"
-  default     = ""
-}

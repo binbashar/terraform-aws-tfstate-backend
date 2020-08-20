@@ -27,11 +27,11 @@
 
 [[constraint]]
   name = "github.com/gruntwork-io/terratest"
-  version = "0.22.0"
+  version = "0.28.10"
 
 [[constraint]]
   name = "github.com/stretchr/testify"
-  version = "1.4.0"
+  version = "1.6.1"
 
 [prune]
   go-tests = true

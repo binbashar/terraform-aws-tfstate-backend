@@ -27,6 +27,8 @@ We have a tfstate S3 Bucket per account
 
 - **Versions:** `>= 1.x.y` (Terraform 0.12.x compatible)
     - eg: https://registry.terraform.io/modules/binbashar/tfstate-backend/aws/1.0.0
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -65,6 +67,8 @@ We have a tfstate S3 Bucket per account
 | s3\_bucket\_arn | S3 bucket ARN |
 | s3\_bucket\_domain\_name | S3 bucket domain name |
 | s3\_bucket\_id | S3 bucket ID |
+
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Usage
 
@@ -119,21 +123,53 @@ module "terraform_state_backend" {
 }
 ```
 
+---
+
+## Binbash Leverage | DevOps Automation Code Library Integration
+
+In order to get the full automated potential of the
+[Binbash Leverage DevOps Automation Code Library](https://leverage.binbash.com.ar/how-it-works/code-library/code-library/)  
+you should initialize all the necessary helper **Makefiles**.
+
+#### How?
+You must execute the `make init-makefiles` command  at the root context
+
+```shell
+╭─delivery at delivery-I7567 in ~/terraform/terraform-aws-backup-by-tags on master✔ 20-09-17
+╰─⠠⠵ make
+Available Commands:
+ - init-makefiles     initialize makefiles
+
+```
+
+### Why?
+You'll get all the necessary commands to automatically operate this module via a dockerized approach,
+example shown below
+
+```shell
+╭─delivery at delivery-I7567 in ~/terraform/terraform-aws-backup-by-tags on master✔ 20-09-17
+╰─⠠⠵ make
+Available Commands:
+ - circleci-validate-config  ## Validate A CircleCI Config (https
+ - format-check        ## The terraform fmt is used to rewrite tf conf files to a canonical format and style.
+ - format              ## The terraform fmt is used to rewrite tf conf files to a canonical format and style.
+ - tf-dir-chmod        ## run chown in ./.terraform to gran that the docker mounted dir has the right permissions
+ - version             ## Show terraform version
+ - init-makefiles      ## initialize makefiles
+```
+
+```shell
+╭─delivery at delivery-I7567 in ~/terraform/terraform-aws-backup-by-tags on master✔ 20-09-17
+╰─⠠⠵ make format-check
+docker run --rm -v /home/delivery/Binbash/repos/Leverage/terraform/terraform-aws-backup-by-tags:"/go/src/project/":rw -v :/config -v /common.config:/common-config/common.config -v ~/.ssh:/root/.ssh -v ~/.gitconfig:/etc/gitconfig -v ~/.aws/bb:/root/.aws/bb -e AWS_SHARED_CREDENTIALS_FILE=/root/.aws/bb/credentials -e AWS_CONFIG_FILE=/root/.aws/bb/config --entrypoint=/bin/terraform -w "/go/src/project/" -it binbash/terraform-awscli-slim:0.12.28 fmt -check
+```
+
 # Release Management
-
-## Docker based makefile commands
-- https://cloud.docker.com/u/binbash/repository/docker/binbash/git-release
-- https://github.com/binbashar/terraform-aws-tfstate-backend/blob/master/Makefile
-
-Root directory `Makefile` has the automated steps (to be integrated with **CircleCI jobs** []() )
-
 ### CircleCi PR auto-release job
+
 <div align="left">
   <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/circleci.png" alt="leverage-circleci" width="230"/>
 </div>
-
-- https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend
-- **NOTE:** Will only run after merged PR.
 
 - [**pipeline-job**](https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend) (**NOTE:** Will only run after merged PR)
 - [**releases**](https://github.com/binbashar/terraform-aws-tfstate-backend/releases)

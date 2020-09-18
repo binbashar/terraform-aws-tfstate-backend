@@ -1,8 +1,10 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash.png" alt="drawing" width="350"/>
+    <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash.png"
+     alt="drawing" width="250"/>
 </div>
 <div align="right">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-leverage-terraform.png" alt="leverage" width="230"/>
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-leverage-terraform.png"
+   alt="leverage" width="130"/>
 </div>
 
 # Terraform Module: Terraform Backend
@@ -182,7 +184,8 @@ docker run --rm -v /home/delivery/Binbash/repos/Leverage/terraform/terraform-aws
 ### CircleCi PR auto-release job
 
 <div align="left">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/circleci.png" alt="leverage-circleci" width="230"/>
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/circleci.png"
+   alt="leverage-circleci" width="130"/>
 </div>
 
 - [**pipeline-job**](https://circleci.com/gh/binbashar/terraform-aws-tfstate-backend) (**NOTE:** Will only run after merged PR)

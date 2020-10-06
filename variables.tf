@@ -58,11 +58,6 @@ variable "label_order" {
   description = "The naming order of the id output and Name tag"
 }
 
-variable "region" {
-  type        = string
-  description = "AWS Region the S3 bucket should reside in"
-}
-
 variable "acl" {
   type        = string
   description = "The canned ACL to apply to the S3 bucket"

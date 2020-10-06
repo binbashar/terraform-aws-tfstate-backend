@@ -5,7 +5,6 @@ module "terraform_state_backend" {
   stage                         = var.stage
   name                          = var.name
   attributes                    = var.attributes
-  region                        = var.region
   bucket_replication_enabled    = var.bucket_replication_enabled
   acl                           = var.acl
   block_public_acls             = var.block_public_acls

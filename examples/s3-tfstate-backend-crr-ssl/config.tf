@@ -3,7 +3,7 @@
 #=============================#
 provider "aws" {
   alias                   = "main_region"
-  version                 = "~> 2.69"
+  version                 = "~> 3.0"
   region                  = var.region
   profile                 = var.profile
   shared_credentials_file = "~/.aws/bb/config"
@@ -11,7 +11,7 @@ provider "aws" {
 
 provider "aws" {
   alias                   = "secondary_region"
-  version                 = "~> 2.69"
+  version                 = "~> 3.0"
   region                  = var.region_secondary
   profile                 = var.profile
   shared_credentials_file = "~/.aws/bb/config"
@@ -30,6 +30,7 @@ variable "region_secondary" {
 }
 
 variable "profile" {
+  type        = string
   description = "AWS Profile"
   default     = "bb-dev-deploymaster"
 }

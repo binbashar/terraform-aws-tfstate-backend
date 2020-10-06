@@ -3,7 +3,6 @@ resource "aws_s3_bucket" "default" {
 
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
   acl           = var.acl
-  region        = var.region
   force_destroy = var.force_destroy
 
   versioning {

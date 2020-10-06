@@ -21,7 +21,7 @@ variable "stage" {
 
 variable "name" {
   type        = string
-  default     = "terraform"
+  default     = "terraform-replicated-ssl"
   description = "Solution name, e.g. 'app' or 'jenkins'"
 }
 
@@ -83,5 +83,5 @@ variable "bucket_replication_enabled" {
 variable "enforce_ssl_requests" {
   type        = bool
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
-  default     = false
+  default     = true
 }

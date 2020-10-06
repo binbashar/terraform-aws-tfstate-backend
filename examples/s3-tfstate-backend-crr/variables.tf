@@ -21,7 +21,7 @@ variable "stage" {
 
 variable "name" {
   type        = string
-  default     = "terraform-replicated"
+  default     = "terraform-crr"
   description = "Solution name, e.g. 'app' or 'jenkins'"
 }
 

@@ -40,7 +40,7 @@ func TestReplicatedBucketAndTableExist(t *testing.T) {
 
     terraformOptions := &terraform.Options {
         // The path to where our Terraform code is located
-        TerraformDir: "../examples/s3-tfstate-backend-replicated",
+        TerraformDir: "../examples/s3-tfstate-backend-crr",
 
         // Disable colors in Terraform commands so its easier to parse stdout/stderr
         NoColor: true,
@@ -67,7 +67,7 @@ func TestReplicatedBucketAndTableExistSslEnforced(t *testing.T) {
 
     terraformOptions := &terraform.Options {
         // The path to where our Terraform code is located
-        TerraformDir: "../examples/s3-tfstate-backend-replicated-ssl",
+        TerraformDir: "../examples/s3-tfstate-backend-crr-ssl",
 
         // Disable colors in Terraform commands so its easier to parse stdout/stderr
         NoColor: true,

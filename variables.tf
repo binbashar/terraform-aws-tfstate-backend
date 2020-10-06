@@ -134,3 +134,9 @@ variable "bucket_replication_enabled" {
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
   default     = false
 }
+
+variable "enforce_ssl_requests" {
+  type        = bool
+  description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
+  default     = false
+}

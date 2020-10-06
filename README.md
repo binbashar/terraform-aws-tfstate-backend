@@ -49,7 +49,6 @@ We have a tfstate S3 Bucket per account
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| region | AWS Region the S3 bucket should reside in | `string` | n/a | yes |
 | acl | The canned ACL to apply to the S3 bucket | `string` | `"private"` | no |
 | additional\_tag\_map | Additional tags for appending to each tag map | `map(string)` | `{}` | no |
 | attributes | Additional attributes (e.g. `state`) | `list(string)` | <pre>[<br>  "state"<br>]</pre> | no |
@@ -59,6 +58,7 @@ We have a tfstate S3 Bucket per account
 | context | Default context to use for passing state between label invocations | `map(string)` | `{}` | no |
 | delimiter | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes` | `string` | `"-"` | no |
 | enable\_server\_side\_encryption | Enable DynamoDB server-side encryption | `bool` | `true` | no |
+| enforce\_ssl\_requests | Enable/Disable replica for S3 bucket (for cross region replication purpose) | `bool` | `false` | no |
 | environment | Environment, e.g. 'prod', 'staging', 'dev', 'pre-prod', 'UAT' | `string` | `""` | no |
 | force\_destroy | A boolean that indicates the S3 bucket can be destroyed even if it contains objects. These objects are not recoverable | `bool` | `false` | no |
 | ignore\_public\_acls | Whether Amazon S3 should ignore public ACLs for this bucket. | `bool` | `false` | no |
@@ -68,6 +68,7 @@ We have a tfstate S3 Bucket per account
 | namespace | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `""` | no |
 | read\_capacity | DynamoDB read capacity units | `number` | `5` | no |
 | regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. By default only hyphens, letters and digits are allowed, all other chars are removed | `string` | `"/[^a-zA-Z0-9-]/"` | no |
+| region | AWS Region the S3 bucket should reside in | `string` | n/a | yes |
 | restrict\_public\_buckets | Whether Amazon S3 should restrict public bucket policies for this bucket. | `bool` | `false` | no |
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `""` | no |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |

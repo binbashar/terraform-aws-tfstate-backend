@@ -94,3 +94,30 @@ resource "aws_iam_policy_attachment" "bucket_replication" {
   roles      = [aws_iam_role.bucket_replication[0].name]
   policy_arn = aws_iam_policy.bucket_replication[0].arn
 }
+
+resource "aws_s3_bucket_policy" "bucket_replication" {
+  count = var.bucket_replication_enabled && var.enforce_ssl_requests ? 1 : 0
+
+  provider = aws.secondary_region
+  bucket   = aws_s3_bucket.replication_bucket[0].id
+  policy   = <<POLICY
+{
+  "Id": "TerraformStateBucketPolicies",
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "EnforceSSlRequestsOnly",
+      "Action": "s3:*",
+      "Effect": "Deny",
+      "Resource": "${aws_s3_bucket.replication_bucket[0].arn}/*",
+      "Condition": {
+         "Bool": {
+           "aws:SecureTransport": "false"
+          }
+      },
+      "Principal": "*"
+    }
+  ]
+}
+POLICY
+}

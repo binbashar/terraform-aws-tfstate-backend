@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.12"></a>
+## [v1.0.12] - 2020-10-06
+
+- Add support to enforce SSL requests ([#11](https://github.com/binbashar/terraform-tfstate-backend/issues/11))
+
+
 <a name="v1.0.11"></a>
 ## [v1.0.11] - 2020-10-02
 
@@ -132,7 +138,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.11...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.12...HEAD
+[v1.0.12]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.11...v1.0.12
 [v1.0.11]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.10...v1.0.11
 [v1.0.10]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.9...v1.0.10
 [v1.0.9]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.8...v1.0.9

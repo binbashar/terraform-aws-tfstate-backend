@@ -114,9 +114,9 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
 resource "aws_s3_bucket_policy" "default" {
   count = var.enforce_ssl_requests ? 1 : 0
 
-  provider  = aws.main_region
-  bucket    = aws_s3_bucket.default.id
-  policy    = <<POLICY
+  provider = aws.main_region
+  bucket   = aws_s3_bucket.default.id
+  policy   = <<POLICY
 {
   "Id": "TerraformStateBucketPolicies",
   "Version": "2012-10-17",

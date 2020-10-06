@@ -14,4 +14,9 @@ module "terraform_state_backend" {
   restrict_public_buckets       = var.restrict_public_buckets
   enforce_ssl_requests          = var.enforce_ssl_requests
   tags                          = var.tags
+
+  providers = {
+    aws.main_region      = aws.main_region
+    aws.secondary_region = aws.secondary_region
+  }
 }

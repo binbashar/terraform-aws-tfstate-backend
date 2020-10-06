@@ -77,7 +77,7 @@ variable "regex_replace_chars" {
 variable "bucket_replication_enabled" {
   type        = bool
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
-  default     = false
+  default     = true
 }
 
 variable "enforce_ssl_requests" {

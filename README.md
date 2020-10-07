@@ -1,9 +1,9 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash.png"
+    <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/binbash.png"
      alt="drawing" width="250"/>
 </div>
 <div align="right">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-leverage-terraform.png"
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/binbash-leverage-terraform.png"
    alt="leverage" width="130"/>
 </div>
 
@@ -13,14 +13,14 @@ Terraform module to provision an S3 bucket to store terraform.tfstate file and a
 DynamoDB table to lock the state file to prevent concurrent modifications and state corruption.
 
 <div align="left">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend.png" alt="leverage" width="330"/>
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/binbash-aws-s3-backend.png" alt="leverage" width="330"/>
 </div>
 
 ### AWS Org implementation example
 
 We have a tfstate S3 Bucket per account
 <div align="left">
-  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/0.11/master/figures/binbash-aws-s3-backend-complete.png" alt="leverage" width="730"/>
+  <img src="https://raw.githubusercontent.com/binbashar/terraform-aws-tfstate-backend/master/figures/binbash-aws-s3-backend-complete.png" alt="leverage" width="730"/>
 </div>
 
 ## Releases

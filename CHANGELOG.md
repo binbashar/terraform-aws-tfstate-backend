@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.14"></a>
+## [v1.0.14] - 2020-11-16
+
+- BBL-440 | ci pre-commit + slack notif + makefile-lib versioned
+
+
 <a name="v1.0.13"></a>
 ## [v1.0.13] - 2020-10-07
 
@@ -144,7 +150,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.13...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.14...HEAD
+[v1.0.14]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.13...v1.0.14
 [v1.0.13]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.12...v1.0.13
 [v1.0.12]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.11...v1.0.12
 [v1.0.11]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.10...v1.0.11

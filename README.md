@@ -36,14 +36,14 @@ We have a tfstate S3 Bucket per account
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12.28 |
-| aws | ~> 2.70 |
+| aws | ~> 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws.main\_region | ~> 2.70 |
-| aws.secondary\_region | ~> 2.70 |
+| aws.main\_region | ~> 3.0 |
+| aws.secondary\_region | ~> 3.0 |
 
 ## Inputs
 
@@ -68,7 +68,6 @@ We have a tfstate S3 Bucket per account
 | namespace | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `""` | no |
 | read\_capacity | DynamoDB read capacity units | `number` | `5` | no |
 | regex\_replace\_chars | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. By default only hyphens, letters and digits are allowed, all other chars are removed | `string` | `"/[^a-zA-Z0-9-]/"` | no |
-| region | AWS Region the S3 bucket should reside in | `string` | n/a | yes |
 | restrict\_public\_buckets | Whether Amazon S3 should restrict public bucket policies for this bucket. | `bool` | `false` | no |
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `""` | no |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |

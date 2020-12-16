@@ -3,18 +3,16 @@
 #=============================#
 provider "aws" {
   alias                   = "main_region"
-  version                 = "~> 3.0"
   region                  = var.region
   profile                 = var.profile
-  shared_credentials_file = "~/.aws/bb/config"
+  shared_credentials_file = "~/.aws/${var.namespace}/config"
 }
 
 provider "aws" {
   alias                   = "secondary_region"
-  version                 = "~> 3.0"
   region                  = var.region_secondary
   profile                 = var.profile
-  shared_credentials_file = "~/.aws/bb/config"
+  shared_credentials_file = "~/.aws/${var.namespace}/config"
 }
 
 variable "region" {
@@ -35,16 +33,13 @@ variable "profile" {
   default     = "bb-dev-deploymaster"
 }
 
-# Uncomment for local testing
-//variable "profile" {
-//  type        = string
-//  description = "AWS Profile"
-//  default     = "bb-apps-devstg-devops"
-//}
-
 #=============================#
 # Backend Config (partial)    #
 #=============================#
 terraform {
-  required_version = ">= 0.12.28"
+  required_version = ">= 0.14.2"
+
+  required_providers {
+    aws = "~> 3.0"
+  }
 }

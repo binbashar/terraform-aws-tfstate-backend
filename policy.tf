@@ -33,10 +33,10 @@ resource "aws_s3_bucket_policy" "allow_vpc" {
   policy   = <<POLICY
 {
   "Version": "2012-10-17",
-  "Id": "TerraformStateBucketPolicySllVpce",
+  "Id": "TerraformStateBucketPolicySllVpc",
   "Statement": [
     {
-      "Sid": "EnforceVPCeRequestsOnly",
+      "Sid": "EnforceVPCRequestsOnly",
       "Effect": "Deny",
       "Principal": "*",
       "Action": "s3:*",

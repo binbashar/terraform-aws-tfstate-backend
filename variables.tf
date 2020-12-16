@@ -135,3 +135,16 @@ variable "enforce_ssl_requests" {
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
   default     = false
 }
+
+variable "enforce_vpc_requests" {
+  type        = bool
+  description = "Enable/Disable VPC endpoint for S3 bucket"
+  default     = false
+}
+
+variable "vpc_id" {
+  type        = string
+  description = "VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket."
+  default     = ""
+}
+

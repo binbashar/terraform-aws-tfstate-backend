@@ -26,7 +26,7 @@ POLICY
 }
 
 resource "aws_s3_bucket_policy" "allow_vpc" {
-  count = var.enforce_vpc_requests && var.vpc_id !="" ? 1 : 0
+  count = var.enforce_vpc_requests && var.vpc_id != "" ? 1 : 0
 
   provider = aws.main_region
   bucket   = aws_s3_bucket.default.id

@@ -101,7 +101,7 @@ variable "vpc_id" {
 variable "vpc_route_table_ids_list" {
   type        = list(string)
   description = "VPC route table ids"
-  default     = ["rtb-0dfa681c27e8b33f5","rtb-095aed0b9abf62536"]
+  default     = ["rtb-0dfa681c27e8b33f5", "rtb-095aed0b9abf62536"]
 }
 
 

@@ -30,7 +30,7 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_id            = var.vpc_id
   vpc_endpoint_type = "Gateway"
 
-  service_name      = "com.amazonaws.${var.region}.s3"
+  service_name = "com.amazonaws.${var.region}.s3"
 
   route_table_ids = var.vpc_route_table_ids_list
 }

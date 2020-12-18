@@ -2,8 +2,8 @@ resource "aws_s3_bucket_policy" "default" {
   count = var.enforce_ssl_requests ? 1 : 0
 
   provider = aws.main_region
-  bucket = aws_s3_bucket.default.id
-  policy = data.aws_iam_policy_document.default-ssl.json
+  bucket   = aws_s3_bucket.default.id
+  policy   = data.aws_iam_policy_document.default-ssl.json
 }
 
 data "aws_iam_policy_document" "default-ssl" {
@@ -43,7 +43,7 @@ resource "aws_s3_bucket_policy" "default-ssl-vpc" {
   count = var.enforce_ssl_requests && var.enforce_vpc_requests && var.vpc_ids_list != [] ? 1 : 0
 
   provider = aws.main_region
-  bucket = aws_s3_bucket.default.id
+  bucket   = aws_s3_bucket.default.id
 
 
   policy = data.aws_iam_policy_document.default-ssl-vpc.json
@@ -105,11 +105,11 @@ data "aws_iam_policy_document" "default-ssl-vpc" {
     # aws:sourceVpc condition.
     #
     condition {
-      test = "StringNotEquals"
+      test     = "StringNotEquals"
       variable = "aws:sourceVpc"
       values = [
-      for vpc_id in var.vpc_ids_list:
-      vpc_id
+        for vpc_id in var.vpc_ids_list :
+        vpc_id
       ]
     }
   }

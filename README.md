@@ -72,7 +72,7 @@ We have a tfstate S3 Bucket per account
 | restrict\_public\_buckets | Whether Amazon S3 should restrict public bucket policies for this bucket. | `bool` | `false` | no |
 | stage | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `""` | no |
 | tags | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
-| vpc\_id | VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket. | `string` | `""` | no |
+| vpc\_ids\_list | VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket. | `list(string)` | `[]` | no |
 | write\_capacity | DynamoDB write capacity units | `number` | `5` | no |
 
 ## Outputs
@@ -143,6 +143,36 @@ module "terraform_state_backend" {
 
 ---
 
+## Important consideration
+When using the `enforce_vpc_requests = true` please consider the following 
+[AWS VPC gateway endpoint limitations](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-gateway.html#vpc-endpoints-limitations)
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| enforce\_vpc\_requests | Enable/Disable VPC endpoint for S3 bucket | `bool` | `false` | no |
+| vpc\_ids\_list | VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket. | `list(string)` | `[]` | no |
+
+
+#### To use gateway endpoints, you need to be aware of the current limitations:
+
+- You cannot use an AWS prefix list ID in an outbound rule in a network ACL to allow or deny outbound traffic
+ to the service specified in an endpoint. If your network ACL rules restrict traffic, you must specify the CIDR
+ block (IP address range) for the service instead. You can, however, use an AWS prefix list ID in an outbound
+ security group rule. For more information, see Security groups.
+- Endpoints are supported within the same Region only. You cannot create an endpoint between a VPC and a
+  service in a different Region.
+- Endpoints support IPv4 traffic only.
+- You cannot transfer an endpoint from one VPC to another, or from one service to another.
+- You have a quota on the number of endpoints you can create per VPC. For more information, see VPC endpoints.
+- Endpoint connections cannot be extended out of a VPC. Resources on the other side of a VPN connection,
+ VPC peering connection, transit gateway, AWS Direct Connect connection, or ClassicLink connection in your VPC
+ cannot use the endpoint to communicate with resources in the endpoint service.
+- You must enable DNS resolution in your VPC, or if you're using your own DNS server, ensure that
+ DNS requests to the required service (such as Amazon S3) are resolved correctly to the IP addresses
+ maintained by AWS. For more information, see Using DNS with your VPC and AWS IP Address Ranges in the
+ Amazon Web Services General Reference.
+
+Review the service-specific limits for your endpoint service.
 ## Binbash Leverage | DevOps Automation Code Library Integration
 
 In order to get the full automated potential of the

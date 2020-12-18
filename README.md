@@ -35,7 +35,7 @@ We have a tfstate S3 Bucket per account
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.14.2 |
+| terraform | >= 0.13.2 |
 | aws | ~> 3.0 |
 
 ## Providers
@@ -144,7 +144,7 @@ module "terraform_state_backend" {
 ---
 
 ## Important consideration
-When using the `enforce_vpc_requests = true` please consider the following 
+When using the `enforce_vpc_requests = true` please consider the following
 [AWS VPC gateway endpoint limitations](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-gateway.html#vpc-endpoints-limitations)
 
 | Name | Description | Type | Default | Required |

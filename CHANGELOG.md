@@ -7,6 +7,22 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.15"></a>
+## [v1.0.15] - 2020-12-18
+
+- BBL-263 | requirement tf-0.13.2 tests implemented with tf-0.14.2
+- BBL-263 | minor readme.md important consideration section sintaxt improvement
+- BBL-263 | small readme.md update
+- BBL-263 | make pre-commit applied - terraform format + terraform docs + documentation vpce considerations added
+- BBL-263 | adding s3 service limited vpc traffic policy
+- BBL-263 | applying make pre-commit to format and update README.md
+- BBL-263 | adding crr-vpce test
+- BBL-263 | updating examples config.tf to use terraform 0.14.2
+- BBL-263 | updating vpc filtering bucket policy ids
+- BBL-263 | adding optional vpc filtering via bucket policy to enforce vpce access
+- BBL-263 | upgrading to terraform 0.14.2
+
+
 <a name="v1.0.14"></a>
 ## [v1.0.14] - 2020-11-16
 
@@ -150,7 +166,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.14...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.15...HEAD
+[v1.0.15]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.14...v1.0.15
 [v1.0.14]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.13...v1.0.14
 [v1.0.13]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.12...v1.0.13
 [v1.0.12]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.11...v1.0.12

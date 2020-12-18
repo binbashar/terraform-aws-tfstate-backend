@@ -30,7 +30,7 @@ variable "region_secondary" {
 variable "profile" {
   type        = string
   description = "AWS Profile"
-  default     = "bb-dev-deploymaster"
+  default     = "bb-shared-deploymaster"
 }
 
 #=============================#

@@ -1,31 +1,28 @@
+#==============================#
+# Tf-state S3 Backend          #
+#==============================#
 variable "namespace" {
   type        = string
-  default     = ""
+  default     = "bb"
   description = "Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp'"
 }
 
 variable "environment" {
   type        = string
-  default     = ""
+  default     = "qa"
   description = "Environment, e.g. 'prod', 'staging', 'dev', 'pre-prod', 'UAT'"
 }
 
 variable "stage" {
   type        = string
-  default     = ""
+  default     = "test"
   description = "Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release'"
 }
 
 variable "name" {
   type        = string
-  default     = "terraform"
+  default     = "terraform-crr-vpce"
   description = "Solution name, e.g. 'app' or 'jenkins'"
-}
-
-variable "delimiter" {
-  type        = string
-  default     = "-"
-  description = "Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`"
 }
 
 variable "attributes" {
@@ -40,52 +37,11 @@ variable "tags" {
   description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`"
 }
 
-variable "additional_tag_map" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags for appending to each tag map"
-}
-
-variable "context" {
-  type        = map(string)
-  default     = {}
-  description = "Default context to use for passing state between label invocations"
-}
-
-variable "label_order" {
-  type        = list(string)
-  default     = []
-  description = "The naming order of the id output and Name tag"
-}
 
 variable "acl" {
   type        = string
   description = "The canned ACL to apply to the S3 bucket"
   default     = "private"
-}
-
-variable "read_capacity" {
-  type        = number
-  default     = 5
-  description = "DynamoDB read capacity units"
-}
-
-variable "write_capacity" {
-  type        = number
-  default     = 5
-  description = "DynamoDB write capacity units"
-}
-
-variable "force_destroy" {
-  type        = bool
-  description = "A boolean that indicates the S3 bucket can be destroyed even if it contains objects. These objects are not recoverable"
-  default     = false
-}
-
-variable "mfa_delete" {
-  type        = bool
-  description = "A boolean that indicates that versions of S3 objects can only be deleted with MFA. ( Terraform cannot apply changes of this value; https://github.com/terraform-providers/terraform-provider-aws/issues/629 )"
-  default     = false
 }
 
 variable "enable_server_side_encryption" {
@@ -97,25 +53,19 @@ variable "enable_server_side_encryption" {
 variable "block_public_acls" {
   type        = bool
   description = "Whether Amazon S3 should block public ACLs for this bucket."
-  default     = false
-}
-
-variable "ignore_public_acls" {
-  type        = bool
-  description = "Whether Amazon S3 should ignore public ACLs for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "block_public_policy" {
   type        = bool
   description = "Whether Amazon S3 should block public bucket policies for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "restrict_public_buckets" {
   type        = bool
   description = "Whether Amazon S3 should restrict public bucket policies for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "regex_replace_chars" {
@@ -127,7 +77,7 @@ variable "regex_replace_chars" {
 variable "bucket_replication_enabled" {
   type        = bool
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
-  default     = false
+  default     = true
 }
 
 variable "enforce_ssl_requests" {
@@ -139,12 +89,24 @@ variable "enforce_ssl_requests" {
 variable "enforce_vpc_requests" {
   type        = bool
   description = "Enable/Disable VPC endpoint for S3 bucket"
-  default     = false
+  default     = true
 }
 
+variable "vpc_id_vpce" {
+  type        = string
+  description = "VPC id"
+  default     = "vpc-02ed8f213c7b6d869"
+}
 variable "vpc_ids_list" {
   type        = list(string)
-  description = "VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket."
-  default     = []
+  description = "VPC id"
+  default     = ["vpc-02ed8f213c7b6d869"]
 }
+
+variable "vpc_route_table_ids_list" {
+  type        = list(string)
+  description = "VPC route table ids"
+  default     = ["rtb-0dfa681c27e8b33f5", "rtb-095aed0b9abf62536"]
+}
+
 

@@ -2,7 +2,8 @@
 SHELL         := /bin/bash
 MAKEFILE_PATH := ./Makefile
 MAKEFILES_DIR := ./@bin/makefiles
-MAKEFILES_VER := v0.1.5
+MAKEFILES_VER := v0.1.12
+PROJECT_SHORT := bb
 
 help:
 	@echo 'Available Commands:'
@@ -19,5 +20,5 @@ init-makefiles: ## initialize makefiles
 
 -include ${MAKEFILES_DIR}/circleci/circleci.mk
 -include ${MAKEFILES_DIR}/release-mgmt/release.mk
--include ${MAKEFILES_DIR}/terraform13/terraform13.mk
--include ${MAKEFILES_DIR}/terratest13/terratest13.mk
+-include ${MAKEFILES_DIR}/terraform14/terraform14.mk
+-include ${MAKEFILES_DIR}/terratest14/terratest14.mk

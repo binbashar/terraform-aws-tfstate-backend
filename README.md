@@ -153,7 +153,7 @@ When using the `enforce_vpc_requests = true` please consider the following
 | vpc\_ids\_list | VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket. | `list(string)` | `[]` | no |
 
 
-#### To use gateway endpoints, you need to be aware of the current limitations:
+#### To use gateway endpoints, you need to be aware of the current limitations
 
 - You cannot use an AWS prefix list ID in an outbound rule in a network ACL to allow or deny outbound traffic
  to the service specified in an endpoint. If your network ACL rules restrict traffic, you must specify the CIDR

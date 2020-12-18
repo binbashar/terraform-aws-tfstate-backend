@@ -13,6 +13,7 @@ module "terraform_state_backend" {
   restrict_public_buckets       = var.restrict_public_buckets
   enforce_ssl_requests          = var.enforce_ssl_requests
   enforce_vpc_requests          = var.enforce_vpc_requests
+  vpc_ids_list                  = var.vpc_ids_list
   tags                          = var.tags
 
   providers = {
@@ -27,7 +28,7 @@ module "terraform_state_backend" {
 #
 resource "aws_vpc_endpoint" "s3" {
   provider          = aws.main_region
-  vpc_id            = var.vpc_id
+  vpc_id            = var.vpc_id_vpce
   vpc_endpoint_type = "Gateway"
 
   service_name = "com.amazonaws.${var.region}.s3"

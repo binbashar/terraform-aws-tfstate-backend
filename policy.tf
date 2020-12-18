@@ -2,55 +2,115 @@ resource "aws_s3_bucket_policy" "default" {
   count = var.enforce_ssl_requests ? 1 : 0
 
   provider = aws.main_region
-  bucket   = aws_s3_bucket.default.id
-  policy   = <<POLICY
-{
-  "Id": "TerraformStateBucketPolicySSL",
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "EnforceSSlRequestsOnly",
-      "Action": "s3:*",
-      "Effect": "Deny",
-      "Resource": "${aws_s3_bucket.default.arn}/*",
-      "Condition": {
-         "Bool": {
-           "aws:SecureTransport": "false"
-          }
-      },
-      "Principal": "*"
-    }
-  ]
-}
-POLICY
+  bucket = aws_s3_bucket.default.id
+  policy = data.aws_iam_policy_document.default-ssl.json
 }
 
-resource "aws_s3_bucket_policy" "allow_vpc" {
-  count = var.enforce_vpc_requests && var.vpc_id != "" ? 1 : 0
+data "aws_iam_policy_document" "default-ssl" {
+  provider = aws.main_region
+
+  #
+  # 1stg Policy Statement
+  statement {
+    sid = "EnforceSSlRequestsOnly"
+
+    effect = "Deny"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "s3:*",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.default.arn}/*"
+    ]
+
+    #
+    # Check for a condition that always requires ssl communications
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "default-ssl-vpc" {
+  count = var.enforce_ssl_requests && var.enforce_vpc_requests && var.vpc_ids_list != [] ? 1 : 0
 
   provider = aws.main_region
-  bucket   = aws_s3_bucket.default.id
-  policy   = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Id": "TerraformStateBucketPolicySllVpc",
-  "Statement": [
-    {
-      "Sid": "EnforceVPCRequestsOnly",
-      "Effect": "Deny",
-      "Principal": "*",
-      "Action": "s3:*",
-      "Resource": [
-        "${aws_s3_bucket.default.arn}",
-        "${aws_s3_bucket.default.arn}/*"
-      ],
-      "Condition": {
-        "StringNotEquals": {
-          "aws:sourceVpc": "${var.vpc_id}"
-        }
-      }
-    }
-  ]
+  bucket = aws_s3_bucket.default.id
+
+
+  policy = data.aws_iam_policy_document.default-ssl-vpc.json
 }
-POLICY
+
+data "aws_iam_policy_document" "default-ssl-vpc" {
+  provider = aws.main_region
+
+  #
+  # 1stg Policy Statement
+  statement {
+    sid = "EnforceSSlRequestsOnly"
+
+    effect = "Deny"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "s3:*",
+    ]
+
+    resources = [
+      "${aws_s3_bucket.default.arn}/*"
+    ]
+
+    #
+    # Check for a condition that always requires ssl communications
+    condition {
+      test     = "Bool"
+      variable = "aws:SecureTransport"
+      values   = ["false"]
+    }
+  }
+  #
+  # Policy Statements per vpc id
+  statement {
+    sid = "EnforceVPCRequestsOnly"
+
+    effect = "Deny"
+
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+
+    actions = [
+      "s3:*",
+    ]
+
+    resources = [
+      aws_s3_bucket.default.arn,
+      "${aws_s3_bucket.default.arn}/*"
+    ]
+    #
+    # Bucket policy that restricts access to a specific VPC by using the
+    # aws:sourceVpc condition.
+    #
+    condition {
+      test = "StringNotEquals"
+      variable = "aws:sourceVpc"
+      values = [
+      for vpc_id in var.vpc_ids_list:
+      vpc_id
+      ]
+    }
+  }
 }

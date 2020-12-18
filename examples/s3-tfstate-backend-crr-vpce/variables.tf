@@ -92,10 +92,15 @@ variable "enforce_vpc_requests" {
   default     = true
 }
 
-variable "vpc_id" {
+variable "vpc_id_vpce" {
   type        = string
   description = "VPC id"
   default     = "vpc-02ed8f213c7b6d869"
+}
+variable "vpc_ids_list" {
+  type        = list(string)
+  description = "VPC id"
+  default     = ["vpc-02ed8f213c7b6d869"]
 }
 
 variable "vpc_route_table_ids_list" {

@@ -142,9 +142,9 @@ variable "enforce_vpc_requests" {
   default     = false
 }
 
-variable "vpc_id" {
-  type        = string
+variable "vpc_ids_list" {
+  type        = list(string)
   description = "VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket."
-  default     = ""
+  default     = []
 }
 

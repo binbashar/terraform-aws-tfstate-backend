@@ -169,10 +169,8 @@ When using the `enforce_vpc_requests = true` please consider the following
  cannot use the endpoint to communicate with resources in the endpoint service.
 - You must enable DNS resolution in your VPC, or if you're using your own DNS server, ensure that
  DNS requests to the required service (such as Amazon S3) are resolved correctly to the IP addresses
- maintained by AWS. For more information, see Using DNS with your VPC and AWS IP Address Ranges in the
- Amazon Web Services General Reference.
+ maintained by AWS.
 
-Review the service-specific limits for your endpoint service.
 ## Binbash Leverage | DevOps Automation Code Library Integration
 
 In order to get the full automated potential of the

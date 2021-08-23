@@ -41,6 +41,8 @@ resource "aws_s3_bucket" "default" {
     Environment = var.stage
   }
 
+  depends_on = [aws_s3_bucket.replication_bucket]
+
 }
 
 resource "aws_s3_bucket_public_access_block" "default" {

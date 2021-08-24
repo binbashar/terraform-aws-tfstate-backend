@@ -52,6 +52,11 @@ resource "aws_s3_bucket_public_access_block" "default" {
   block_public_policy     = var.block_public_policy
   restrict_public_buckets = var.restrict_public_buckets
   depends_on              = [aws_s3_bucket.default]
+
+  timeouts {
+    create = "1h"
+    delete = "2h"
+  }
 }
 
 resource "aws_dynamodb_table" "with_server_side_encryption" {

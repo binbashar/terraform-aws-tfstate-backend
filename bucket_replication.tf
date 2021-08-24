@@ -85,7 +85,7 @@ resource "aws_iam_policy" "bucket_replication" {
 }
 POLICY
 
-  depends_on = [aws_s3_bucket.replication_bucket]
+  depends_on = [aws_s3_bucket.replication_bucket, time_sleep.wait_2_mins]
 }
 
 resource "aws_iam_policy_attachment" "bucket_replication" {

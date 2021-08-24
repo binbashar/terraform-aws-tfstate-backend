@@ -56,9 +56,8 @@ resource "aws_s3_bucket_public_access_block" "default" {
 }
 
 resource "time_sleep" "wait_2_mins" {
-  depends_on = [null_resource.previous]
-
   create_duration = "2m"
+  depends_on      = [aws_s3_bucket_public_access_block.default]
 }
 
 resource "aws_dynamodb_table" "with_server_side_encryption" {

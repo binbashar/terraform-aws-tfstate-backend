@@ -85,7 +85,7 @@ resource "aws_iam_policy" "bucket_replication" {
 }
 POLICY
 
-  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_2_mins]
+  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_30_secs]
 }
 
 resource "aws_iam_policy_attachment" "bucket_replication" {
@@ -95,7 +95,7 @@ resource "aws_iam_policy_attachment" "bucket_replication" {
   name       = format("%s-%s-%s-role-policy-attachment", var.namespace, var.stage, var.name)
   roles      = [aws_iam_role.bucket_replication[0].name]
   policy_arn = aws_iam_policy.bucket_replication[0].arn
-  depends_on = [aws_s3_bucket.replication_bucket, time_sleep.wait_2_mins]
+  depends_on = [aws_s3_bucket.replication_bucket, time_sleep.wait_30_secs]
 }
 
 resource "aws_s3_bucket_policy" "bucket_replication" {
@@ -124,6 +124,6 @@ resource "aws_s3_bucket_policy" "bucket_replication" {
 }
 POLICY
 
-  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_2_mins]
+  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_30_secs]
 
 }

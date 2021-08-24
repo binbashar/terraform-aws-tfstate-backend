@@ -4,7 +4,7 @@ resource "aws_s3_bucket_policy" "default" {
   provider   = aws.main_region
   bucket     = aws_s3_bucket.default.id
   policy     = data.aws_iam_policy_document.default-ssl.json
-  depends_on = [aws_s3_bucket_public_access_block.default, time_sleep.wait_2_mins]
+  depends_on = [aws_s3_bucket_public_access_block.default, time_sleep.wait_30_secs]
 }
 
 data "aws_iam_policy_document" "default-ssl" {
@@ -46,7 +46,7 @@ resource "aws_s3_bucket_policy" "default-ssl-vpc" {
   provider   = aws.main_region
   bucket     = aws_s3_bucket.default.id
   policy     = data.aws_iam_policy_document.default-ssl-vpc.json
-  depends_on = [aws_s3_bucket_public_access_block.default, time_sleep.wait_2_mins]
+  depends_on = [aws_s3_bucket_public_access_block.default, time_sleep.wait_30_secs]
 }
 
 data "aws_iam_policy_document" "default-ssl-vpc" {

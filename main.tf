@@ -55,8 +55,8 @@ resource "aws_s3_bucket_public_access_block" "default" {
 
 }
 
-resource "time_sleep" "wait_2_mins" {
-  create_duration = "2m"
+resource "time_sleep" "wait_30_secs" {
+  create_duration = "30s"
   depends_on      = [aws_s3_bucket_public_access_block.default]
 }
 

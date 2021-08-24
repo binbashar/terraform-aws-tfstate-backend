@@ -95,6 +95,7 @@ resource "aws_iam_policy_attachment" "bucket_replication" {
   name       = format("%s-%s-%s-role-policy-attachment", var.namespace, var.stage, var.name)
   roles      = [aws_iam_role.bucket_replication[0].name]
   policy_arn = aws_iam_policy.bucket_replication[0].arn
+  depends_on = [aws_s3_bucket.replication_bucket, time_sleep.wait_2_mins]
 }
 
 resource "aws_s3_bucket_policy" "bucket_replication" {

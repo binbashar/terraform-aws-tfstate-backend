@@ -84,6 +84,8 @@ resource "aws_iam_policy" "bucket_replication" {
   ]
 }
 POLICY
+
+  depends_on = [aws_s3_bucket.replication_bucket]
 }
 
 resource "aws_iam_policy_attachment" "bucket_replication" {
@@ -120,4 +122,7 @@ resource "aws_s3_bucket_policy" "bucket_replication" {
   ]
 }
 POLICY
+
+  depends_on = [aws_s3_bucket.replication_bucket]
+
 }

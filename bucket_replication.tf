@@ -85,7 +85,7 @@ resource "aws_iam_policy" "bucket_replication" {
 }
 POLICY
 
-  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block, time_sleep.wait_2_mins]
+  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_2_mins]
 }
 
 resource "aws_iam_policy_attachment" "bucket_replication" {
@@ -124,6 +124,6 @@ resource "aws_s3_bucket_policy" "bucket_replication" {
 }
 POLICY
 
-  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block, time_sleep.wait_2_mins]
+  depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_2_mins]
 
 }

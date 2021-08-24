@@ -1,9 +1,10 @@
 resource "aws_s3_bucket_policy" "default" {
   count = var.enforce_ssl_requests ? 1 : 0
 
-  provider = aws.main_region
-  bucket   = aws_s3_bucket.default.id
-  policy   = data.aws_iam_policy_document.default-ssl.json
+  provider   = aws.main_region
+  bucket     = aws_s3_bucket.default.id
+  policy     = data.aws_iam_policy_document.default-ssl.json
+  depends_on = [aws_s3_bucket_public_access_block.default]
 }
 
 data "aws_iam_policy_document" "default-ssl" {

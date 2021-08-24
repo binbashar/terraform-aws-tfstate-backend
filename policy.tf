@@ -1,9 +1,10 @@
 resource "aws_s3_bucket_policy" "default" {
   count = var.enforce_ssl_requests ? 1 : 0
 
-  provider = aws.main_region
-  bucket   = aws_s3_bucket.default.id
-  policy   = data.aws_iam_policy_document.default-ssl.json
+  provider   = aws.main_region
+  bucket     = aws_s3_bucket.default.id
+  policy     = data.aws_iam_policy_document.default-ssl.json
+  depends_on = [aws_s3_bucket_public_access_block.default]
 }
 
 data "aws_iam_policy_document" "default-ssl" {
@@ -42,11 +43,10 @@ data "aws_iam_policy_document" "default-ssl" {
 resource "aws_s3_bucket_policy" "default-ssl-vpc" {
   count = var.enforce_ssl_requests && var.enforce_vpc_requests && var.vpc_ids_list != [] ? 1 : 0
 
-  provider = aws.main_region
-  bucket   = aws_s3_bucket.default.id
-
-
-  policy = data.aws_iam_policy_document.default-ssl-vpc.json
+  provider   = aws.main_region
+  bucket     = aws_s3_bucket.default.id
+  policy     = data.aws_iam_policy_document.default-ssl-vpc.json
+  depends_on = [aws_s3_bucket_public_access_block.default]
 }
 
 data "aws_iam_policy_document" "default-ssl-vpc" {

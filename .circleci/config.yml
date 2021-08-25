@@ -51,7 +51,7 @@ jobs:
           command: make pre-commit
       - run:
           name: Install awscli
-          command: sudo -H pip install awscli
+          command: sudo -H pip3 install awscli
 
       - run:
           name: Configure awscli
@@ -153,7 +153,7 @@ jobs:
   #
   test-e2e-terratests:
     machine:
-      image: ubuntu-1604:202007-01
+      image: ubuntu-2004:202107-02 # Ubuntu 20.04, Docker v20.10.7, Docker Compose v1.29.2,
       docker_layer_caching: false
 
     steps:
@@ -168,27 +168,6 @@ jobs:
           command: |
             make init-makefiles
             git update-index --assume-unchanged "Makefile"
-
-      - run:
-          name: Install awscli
-          command: sudo pip install awscli
-
-      - run:
-          name: Configure awscli
-          command: |
-            # AWS defautl awscli profile
-            aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-            aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-            aws configure set region us-east-1
-            aws configure set output json
-
-            # AWS dev awscli profile
-            aws configure set role_arn arn:aws:iam::$AWS_ACCOUNT_ID_DEV:role/DeployMaster --profile $AWS_PROFILE_NAME
-            aws configure set source_profile default --profile $AWS_PROFILE_NAME
-            # moving credentials to specific project folder
-            mkdir --parents /home/circleci/.aws/bb
-            cp /home/circleci/.aws/credentials /home/circleci/.aws/bb/credentials
-            cp /home/circleci/.aws/config /home/circleci/.aws/bb/config
 
       - run:
           name: Test AWS permissions

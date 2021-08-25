@@ -7,6 +7,30 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.16"></a>
+## [v1.0.16] - 2021-08-25
+
+- Update Makefile to support terraform 0.14.11 & Terratest 14
+- Add awscli setting for test-e2e-terratests
+- Update Ubuntu image & awscli installation
+- Upgrade CircleCI config
+- Add logging support
+- Set time_sleep block to 30 secs
+- Fix aws_s3_bucket_public_access_block name
+- Force aws_s3_bucket_public_access_block to be applied first
+- Add time_sleep for the aws_iam_policy_attachment
+- Fix depends_on and time_sleep order
+- Add  time sleep for aws_s3_bucket_public_access_block resource
+- Add timeout for aws_s3_bucket_public_access_block
+- Add depends_on to aws_s3_bucket_policy resources
+- Add depends_on between aws_s3_bucket_public_access_block and aws_s3_bucket_policy resources
+- Add depends_on between aws_s3_bucket_public_access_block and aws_s3_bucket_policy resources
+- Add depends_on between aws_s3_bucket_public_access_block and aws_s3_bucket_policy resources
+- Add depends_on in IAM and bucket policies
+- Add denpeds_on for aws_s3_bucket_public_access_block
+- * Add depends_on the replication bucket * Update README using a newer terraform-doc
+
+
 <a name="v1.0.15"></a>
 ## [v1.0.15] - 2020-12-18
 
@@ -166,7 +190,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.15...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.16...HEAD
+[v1.0.16]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.15...v1.0.16
 [v1.0.15]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.14...v1.0.15
 [v1.0.14]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.13...v1.0.14
 [v1.0.13]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.12...v1.0.13

@@ -148,3 +148,11 @@ variable "vpc_ids_list" {
   default     = []
 }
 
+variable "logging" {
+  type = object({
+    bucket_name = string
+    prefix      = string
+  })
+  default     = null
+  description = "Bucket access logging configuration."
+}

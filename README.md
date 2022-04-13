@@ -42,8 +42,8 @@ We have a tfstate S3 Bucket per account
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws.main_region"></a> [aws.main\_region](#provider\_aws.main\_region) | ~> 3.0 |
-| <a name="provider_aws.secondary_region"></a> [aws.secondary\_region](#provider\_aws.secondary\_region) | ~> 3.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
+| <a name="provider_aws.secondary"></a> [aws.secondary](#provider\_aws.secondary) | ~> 3.0 |
 | <a name="provider_time"></a> [time](#provider\_time) | n/a |
 
 ## Modules
@@ -120,12 +120,11 @@ No modules.
 #
 provider "aws" {
   region  = "us-east-1
-  alias   = "main_region"
 }
 
 provider "aws" {
   region  = "us-west-1"
-  alias   = "secondary_region"
+  alias   = "secondary"
 }
 
 # The following creates a Terraform State Backend with Bucket Replication enabled
@@ -140,8 +139,8 @@ module "terraform_state_backend_with_replication" {
   bucket_replication_enabled = true
 
   providers = {
-    aws.main_region = aws.main_region
-    aws.secondary_region = aws.secondary_region
+    aws           = aws
+    aws.secondary = aws.secondary
   }
 }
 
@@ -159,8 +158,8 @@ module "terraform_state_backend" {
 
   # Notice that even though replication is not enabled, we still need to pass a secondary_region provider
   providers = {
-    aws.main_region = aws.main_region
-    aws.secondary_region = aws.main_region
+    aws = aws
+    aws.secondary = aws.secondary
   }
 }
 ```

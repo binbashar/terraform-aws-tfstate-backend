@@ -1,4 +1,3 @@
-
 terraform {
   required_version = ">= 1.0.9"
 
@@ -6,7 +5,7 @@ terraform {
     aws = {
       source                = "hashicorp/aws"
       version               = "~> 3.0"
-      configuration_aliases = [ aws.secondary ]
+      configuration_aliases = [aws.primary, aws.secondary]
     }
   }
 }

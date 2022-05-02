@@ -25,7 +25,7 @@ resource "aws_s3_bucket" "replication_bucket" {
 resource "aws_iam_role" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
 
-  provider           = aws
+  provider           = aws.primary
   name               = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
   assume_role_policy = <<POLICY
 {
@@ -47,7 +47,7 @@ POLICY
 resource "aws_iam_policy" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
 
-  provider = aws
+  provider = aws.primary
   name     = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
   policy   = <<POLICY
 {
@@ -91,7 +91,7 @@ POLICY
 resource "aws_iam_policy_attachment" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
 
-  provider   = aws
+  provider   = aws.primary
   name       = format("%s-%s-%s-role-policy-attachment", var.namespace, var.stage, var.name)
   roles      = [aws_iam_role.bucket_replication[0].name]
   policy_arn = aws_iam_policy.bucket_replication[0].arn

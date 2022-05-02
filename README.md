@@ -35,16 +35,16 @@ We have a tfstate S3 Bucket per account
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.2 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.9 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 3.0 |
-| <a name="provider_aws.secondary"></a> [aws.secondary](#provider\_aws.secondary) | ~> 3.0 |
-| <a name="provider_time"></a> [time](#provider\_time) | n/a |
+| <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | 3.75.1 |
+| <a name="provider_aws.secondary"></a> [aws.secondary](#provider\_aws.secondary) | 3.75.1 |
+| <a name="provider_time"></a> [time](#provider\_time) | 0.7.2 |
 
 ## Modules
 
@@ -139,7 +139,7 @@ module "terraform_state_backend_with_replication" {
   bucket_replication_enabled = true
 
   providers = {
-    aws           = aws
+    aws.primary   = aws
     aws.secondary = aws.secondary
   }
 }
@@ -156,9 +156,9 @@ module "terraform_state_backend" {
   # By default replication is disabled but it shows below for the sake of the example
   bucket_replication_enabled = false
 
-  # Notice that even though replication is not enabled, we still need to pass a secondary_region provider
+  # Notice that even though replication is not enabled, we still need to pass a secondary provider
   providers = {
-    aws = aws
+    aws.primary   = aws
     aws.secondary = aws.secondary
   }
 }

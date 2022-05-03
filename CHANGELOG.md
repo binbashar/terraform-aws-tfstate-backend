@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.18"></a>
+## [v1.0.18] - 2022-05-03
+
+- Enhancement | Remove empy provider configuration block warning ([#16](https://github.com/binbashar/terraform-tfstate-backend/issues/16))
+
+
 <a name="v1.0.17"></a>
 ## [v1.0.17] - 2021-10-08
 
@@ -196,7 +202,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.17...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.18...HEAD
+[v1.0.18]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.17...v1.0.18
 [v1.0.17]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.16...v1.0.17
 [v1.0.16]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.15...v1.0.16
 [v1.0.15]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.14...v1.0.15

@@ -120,12 +120,11 @@ No modules.
 #
 provider "aws" {
   region  = "us-east-1
-  alias   = "main_region"
 }
 
 provider "aws" {
   region  = "us-west-1"
-  alias   = "secondary_region"
+  alias   = "secondary"
 }
 
 # The following creates a Terraform State Backend with Bucket Replication enabled
@@ -140,8 +139,8 @@ module "terraform_state_backend_with_replication" {
   bucket_replication_enabled = true
 
   providers = {
-    aws.main_region = aws.main_region
-    aws.secondary_region = aws.secondary_region
+    aws.primary   = aws
+    aws.secondary = aws.secondary
   }
 }
 
@@ -157,10 +156,10 @@ module "terraform_state_backend" {
   # By default replication is disabled but it shows below for the sake of the example
   bucket_replication_enabled = false
 
-  # Notice that even though replication is not enabled, we still need to pass a secondary_region provider
+  # Notice that even though replication is not enabled, we still need to pass a secondary provider
   providers = {
-    aws.main_region = aws.main_region
-    aws.secondary_region = aws.main_region
+    aws.primary   = aws
+    aws.secondary = aws.secondary
   }
 }
 ```

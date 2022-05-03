@@ -24,7 +24,7 @@ variable "region" {
 variable "region_secondary" {
   type        = string
   description = "AWS secondary Region the S3 replication bucket should reside in"
-  default     = "us-east-2"
+  default     = "eu-west-2"
 }
 
 variable "profile" {

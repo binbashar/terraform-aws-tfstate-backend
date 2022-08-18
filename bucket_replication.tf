@@ -23,6 +23,8 @@ resource "aws_s3_bucket" "replication_bucket" {
 }
 
 resource "aws_s3_bucket_public_access_block" "replication_bucket" {
+  count = var.bucket_replication_enabled ? 1 : 0
+  
   provider                = aws.secondary
   bucket                  = aws_s3_bucket.replication_bucket[0].id
   block_public_acls       = var.block_public_acls

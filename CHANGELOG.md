@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.19"></a>
+## [v1.0.19] - 2022-08-19
+
+- Add public access block to the replication bucket ([#19](https://github.com/binbashar/terraform-tfstate-backend/issues/19))
+
+
 <a name="v1.0.18"></a>
 ## [v1.0.18] - 2022-05-03
 
@@ -202,7 +208,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.18...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.19...HEAD
+[v1.0.19]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.18...v1.0.19
 [v1.0.18]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.17...v1.0.18
 [v1.0.17]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.16...v1.0.17
 [v1.0.16]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.15...v1.0.16

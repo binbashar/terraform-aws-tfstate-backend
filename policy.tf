@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "default-ssl" {
 }
 
 resource "aws_s3_bucket_policy" "default-ssl-vpc" {
-  count = var.enforce_ssl_requests && var.enforce_vpc_requests && var.vpc_ids_list != [] ? 1 : 0
+  count = var.enforce_ssl_requests && var.enforce_vpc_requests && length(var.vpc_ids_list) != 0 ? 1 : 0
 
   provider   = aws.primary
   bucket     = aws_s3_bucket.default.id

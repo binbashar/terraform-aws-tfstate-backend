@@ -2,17 +2,15 @@
 # AWS Provider Settings       #
 #=============================#
 provider "aws" {
-  alias                   = "main_region"
-  region                  = var.region
-  profile                 = var.profile
-  shared_credentials_file = "~/.aws/${var.namespace}/config"
+  alias   = "main_region"
+  region  = var.region
+  profile = var.profile
 }
 
 provider "aws" {
-  alias                   = "secondary_region"
-  region                  = var.region_secondary
-  profile                 = var.profile
-  shared_credentials_file = "~/.aws/${var.namespace}/config"
+  alias   = "secondary_region"
+  region  = var.region_secondary
+  profile = var.profile
 }
 
 variable "region" {
@@ -37,9 +35,9 @@ variable "profile" {
 # Backend Config (partial)    #
 #=============================#
 terraform {
-  required_version = ">= 1.0.9"
+  required_version = ">= 1.1.9"
 
   required_providers {
-    aws = "~> 3.0"
+    aws = "~> 4.0"
   }
 }

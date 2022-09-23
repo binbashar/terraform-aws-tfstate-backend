@@ -156,3 +156,17 @@ variable "logging" {
   default     = null
   description = "Bucket access logging configuration."
 }
+
+#
+# Example:
+#  {
+#    enabled          = true
+#    alarm_action_arn = [
+#      "arn:aws:sns:us-east-1:000000000000:your-sns-topic"
+#    ]
+#  }
+variable "dynamodb_monitoring" {
+  type        = any
+  description = "DynamoDB monitoring settings."
+  default     = {}
+}

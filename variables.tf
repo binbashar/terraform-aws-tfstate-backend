@@ -161,6 +161,7 @@ variable "logging" {
 # Example:
 #  {
 #    enabled          = true
+#    threshold        = "2"
 #    alarm_action_arn = [
 #      "arn:aws:sns:us-east-1:000000000000:your-sns-topic"
 #    ]

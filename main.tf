@@ -127,9 +127,10 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
 
 
 locals {
-  dynamodb_monitoring_enabled = try(var.dynamodb_monitoring["enabled"], false)
-  dynamodb_alarm_actions      = try(var.dynamodb_monitoring["alarm_action_arn"], [])
-  dynamodb_table_name         = var.enable_server_side_encryption == "true" ? aws_dynamodb_table.with_server_side_encryption[0].id : aws_dynamodb_table.without_server_side_encryption[0].id
+  dynamodb_monitoring_enabled       = try(var.dynamodb_monitoring["enabled"], false)
+  dynamodb_monitoring_threshold     = try(var.dynamodb_monitoring["threshold"], "1")
+  dynamodb_monitoring_alarm_actions = try(var.dynamodb_monitoring["alarm_action_arn"], [])
+  dynamodb_monitoring_table_name    = var.enable_server_side_encryption == "true" ? aws_dynamodb_table.with_server_side_encryption[0].id : aws_dynamodb_table.without_server_side_encryption[0].id
 }
 
 resource "aws_cloudwatch_metric_alarm" "dynamodb_capacity" {
@@ -142,11 +143,11 @@ resource "aws_cloudwatch_metric_alarm" "dynamodb_capacity" {
   namespace                 = "AWS/DynamoDB"
   period                    = "300"
   statistic                 = "Average"
-  threshold                 = "2"
+  threshold                 = local.dynamodb_monitoring_threshold
   dimensions                = {
-    TableName = local.dynamodb_table_name
+    TableName = local.dynamodb_monitoring_table_name
   }
   alarm_description         = "This metric monitors DynamoDB capacity utilization"
   insufficient_data_actions = []
-  alarm_actions             = local.dynamodb_alarm_actions
+  alarm_actions             = local.dynamodb_monitoring_alarm_actions
 }

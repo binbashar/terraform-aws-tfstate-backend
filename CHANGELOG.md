@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.21"></a>
+## [v1.0.21] - 2022-09-23
+
+- Implement optional DynamoDB Capacity monitoring ([#21](https://github.com/binbashar/terraform-tfstate-backend/issues/21))
+
+
 <a name="v1.0.20"></a>
 ## [v1.0.20] - 2022-09-14
 
@@ -214,7 +220,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.20...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.21...HEAD
+[v1.0.21]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.20...v1.0.21
 [v1.0.20]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.19...v1.0.20
 [v1.0.19]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.18...v1.0.19
 [v1.0.18]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.17...v1.0.18

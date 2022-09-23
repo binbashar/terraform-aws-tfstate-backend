@@ -134,17 +134,17 @@ locals {
 }
 
 resource "aws_cloudwatch_metric_alarm" "dynamodb_capacity" {
-  count                     = local.dynamodb_monitoring_enabled ? 1 : 0
-  provider                  = aws.primary
-  alarm_name                = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, "dynamodb-capacity-utilization")
-  comparison_operator       = "GreaterThanOrEqualToThreshold"
-  evaluation_periods        = "5"
-  metric_name               = "ConsumedWriteCapacityUnits"
-  namespace                 = "AWS/DynamoDB"
-  period                    = "300"
-  statistic                 = "Average"
-  threshold                 = local.dynamodb_monitoring_threshold
-  dimensions                = {
+  count               = local.dynamodb_monitoring_enabled ? 1 : 0
+  provider            = aws.primary
+  alarm_name          = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, "dynamodb-capacity-utilization")
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "5"
+  metric_name         = "ConsumedWriteCapacityUnits"
+  namespace           = "AWS/DynamoDB"
+  period              = "300"
+  statistic           = "Average"
+  threshold           = local.dynamodb_monitoring_threshold
+  dimensions = {
     TableName = local.dynamodb_monitoring_table_name
   }
   alarm_description         = "This metric monitors DynamoDB capacity utilization"

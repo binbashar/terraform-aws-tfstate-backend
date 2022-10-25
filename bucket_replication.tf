@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "replication_bucket" {
   count = var.bucket_replication_enabled ? 1 : 0
 
   provider = aws.secondary
-  bucket   = format("%s-%s-%s-replica", var.namespace, var.stage, var.name)
+  bucket   = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name)
 
   versioning {
     enabled = true
@@ -60,7 +60,7 @@ resource "aws_iam_policy" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
 
   provider = aws.primary
-  name     = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
+  name     = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_role_name)
   policy   = <<POLICY
 {
   "Version": "2012-10-17",

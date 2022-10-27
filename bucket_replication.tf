@@ -38,7 +38,7 @@ resource "aws_iam_role" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
 
   provider           = aws.primary
-  name               = format("%s-%s-%s-bucket-replication-module", var.namespace, var.stage, var.name)
+  name               = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name_suffix)
   assume_role_policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -60,7 +60,7 @@ resource "aws_iam_policy" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
 
   provider = aws.primary
-  name     = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_role_name)
+  name     = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name_suffix)
   policy   = <<POLICY
 {
   "Version": "2012-10-17",

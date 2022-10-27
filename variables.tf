@@ -136,10 +136,10 @@ variable "bucket_replication_name" {
   description = "Set custom name for S3 Bucket Replication"
 }
 
-variable "bucket_replication_role_name" {
+variable "bucket_replication_name_suffix" {
   type        = string
   default     = "bucket-replication"
-  description = "Set custom IAM Role name for S3 Bucket Replication"
+  description = "Set custom suffix for S3 Bucket Replication IAM Role/Policy"
 }
 
 variable "enforce_ssl_requests" {

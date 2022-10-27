@@ -130,6 +130,18 @@ variable "bucket_replication_enabled" {
   default     = false
 }
 
+variable "bucket_replication_name" {
+  type        = string
+  default     = "replica"
+  description = "Set custom name for S3 Bucket Replication"
+}
+
+variable "bucket_replication_name_suffix" {
+  type        = string
+  default     = "bucket-replication"
+  description = "Set custom suffix for S3 Bucket Replication IAM Role/Policy"
+}
+
 variable "enforce_ssl_requests" {
   type        = bool
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"

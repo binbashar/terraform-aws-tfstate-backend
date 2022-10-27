@@ -138,7 +138,7 @@ variable "bucket_replication_name" {
 
 variable "bucket_replication_role_name" {
   type        = string
-  default     = "bucket-replication-module"
+  default     = "bucket-replication"
   description = "Set custom IAM Role name for S3 Bucket Replication"
 }
 

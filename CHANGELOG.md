@@ -7,6 +7,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.24"></a>
+## [v1.0.24] - 0001-01-01
+
+
+
 <a name="v1.0.23"></a>
 ## [v1.0.23] - 2022-10-27
 
@@ -234,7 +239,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.23...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.24...HEAD
+[v1.0.24]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.23...v1.0.24
 [v1.0.23]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.22...v1.0.23
 [v1.0.22]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.21...v1.0.22
 [v1.0.21]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.20...v1.0.21

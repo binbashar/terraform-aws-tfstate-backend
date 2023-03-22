@@ -5,14 +5,6 @@ resource "aws_s3_bucket" "default" {
   acl           = var.acl
   force_destroy = var.force_destroy
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
   dynamic "replication_configuration" {
     for_each = var.bucket_replication_enabled ? ["true"] : []
     content {
@@ -45,6 +37,16 @@ resource "aws_s3_bucket" "default" {
   }
 
   depends_on = [aws_s3_bucket.replication_bucket]
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
+  bucket = aws_s3_bucket.default.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
 }
 
 resource "aws_s3_bucket_versioning" "default" {

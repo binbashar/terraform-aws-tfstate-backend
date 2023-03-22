@@ -4,17 +4,20 @@ resource "aws_s3_bucket" "replication_bucket" {
   provider = aws.secondary
   bucket   = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name)
 
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
   tags = {
     Terraform   = "true"
     Environment = var.stage
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "replication_bucket" {
+  count = var.bucket_replication_enabled ? 1 : 0
+  bucket = aws_s3_bucket.replication_bucket[0].id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 

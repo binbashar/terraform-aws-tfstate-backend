@@ -2,7 +2,6 @@ resource "aws_s3_bucket" "default" {
   provider = aws.primary
 
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
-  acl           = var.acl
   force_destroy = var.force_destroy
 
   dynamic "replication_configuration" {
@@ -37,6 +36,11 @@ resource "aws_s3_bucket" "default" {
   }
 
   depends_on = [aws_s3_bucket.replication_bucket]
+}
+
+resource "aws_s3_bucket_acl" "default" {
+  bucket = aws_s3_bucket.default.id
+  acl    = var.acl
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {

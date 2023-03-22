@@ -88,6 +88,18 @@ variable "mfa_delete" {
   default     = false
 }
 
+variable "mfa_serial" {
+  type        = string
+  description = "The serial number of the MFA device to use. Necessary when mfa_delete is true."
+  default     = ""
+}
+
+variable "mfa_secret" {
+  type        = string
+  description = "The numbers displayed on the MFA device when applying. Necessary when mfa_delete is true."
+  default     = ""
+}
+
 variable "enable_server_side_encryption" {
   type        = bool
   description = "Enable DynamoDB server-side encryption"

@@ -5,11 +5,6 @@ resource "aws_s3_bucket" "default" {
   acl           = var.acl
   force_destroy = var.force_destroy
 
-  versioning {
-    enabled    = true
-    mfa_delete = var.mfa_delete
-  }
-
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -50,6 +45,17 @@ resource "aws_s3_bucket" "default" {
   }
 
   depends_on = [aws_s3_bucket.replication_bucket]
+}
+
+resource "aws_s3_bucket_versioning" "default" {
+  bucket = aws_s3_bucket.default.id
+
+  versioning_configuration {
+    status     = "Enabled"
+    mfa_delete = var.mfa_delete ? "Enabled" : "Disabled"
+  }
+
+  mfa = var.mfa_delete ? "${var.mfa_serial} ${var.mfa_secret}" : null
 }
 
 resource "aws_s3_bucket_public_access_block" "default" {

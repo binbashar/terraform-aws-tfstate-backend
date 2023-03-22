@@ -39,12 +39,14 @@ resource "aws_s3_bucket" "default" {
 }
 
 resource "aws_s3_bucket_acl" "default" {
-  bucket = aws_s3_bucket.default.id
-  acl    = var.acl
+  provider = aws.primary
+  bucket   = aws_s3_bucket.default.id
+  acl      = var.acl
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
-  bucket = aws_s3_bucket.default.id
+  provider = aws.primary
+  bucket   = aws_s3_bucket.default.id
 
   rule {
     apply_server_side_encryption_by_default {
@@ -54,7 +56,8 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
 }
 
 resource "aws_s3_bucket_versioning" "default" {
-  bucket = aws_s3_bucket.default.id
+  provider = aws.primary
+  bucket   = aws_s3_bucket.default.id
 
   versioning_configuration {
     status     = "Enabled"

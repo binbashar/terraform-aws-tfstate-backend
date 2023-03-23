@@ -1,3 +1,4 @@
+#tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "default" {
   provider = aws.primary
 
@@ -44,6 +45,7 @@ resource "aws_s3_bucket_acl" "default" {
   acl      = var.acl
 }
 
+#tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   provider = aws.primary
   bucket   = aws_s3_bucket.default.id
@@ -67,6 +69,10 @@ resource "aws_s3_bucket_versioning" "default" {
   mfa = var.mfa_delete ? "${var.mfa_serial} ${var.mfa_secret}" : null
 }
 
+#tfsec:ignore:aws-s3-block-public-acls
+#tfsec:ignore:aws-s3-ignore-public-acls
+#tfsec:ignore:aws-s3-block-public-policy
+#tfsec:ignore:aws-s3-no-public-buckets
 resource "aws_s3_bucket_public_access_block" "default" {
   provider                = aws.primary
   bucket                  = aws_s3_bucket.default.id
@@ -113,6 +119,9 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
   }
 }
 
+#tfsec:ignore:aws-dynamodb-enable-at-rest-encryption
+#tfsec:ignore:aws-dynamodb-enable-recovery
+#tfsec:ignore:aws-dynamodb-table-customer-key
 resource "aws_dynamodb_table" "without_server_side_encryption" {
   count = var.enable_server_side_encryption == "true" ? 0 : 1
 

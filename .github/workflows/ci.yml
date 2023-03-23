@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  pull_request: {}
+  push:
+    branches: [ master ]
+
+jobs:
+  tfsec:
+    name: tfsec
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout files in the repository
+        uses: actions/checkout@v3
+
+      - name: Scan project with tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3

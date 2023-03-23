@@ -320,6 +320,9 @@ jobs:
               echo "==============================================================================================="
             fi
 
+      - tfsec/install
+      - tfsec/scan
+
       - slack/notify:
           event: fail
           mentions: '@leverage-support'
@@ -397,6 +400,7 @@ jobs:
 orbs:
   sumologic: circleci/sumologic@1.0.6
   slack: circleci/slack@4.1.1
+  tfsec: mycodeself/tfsec@1.1.0
 
 #
 # Jobs workflow

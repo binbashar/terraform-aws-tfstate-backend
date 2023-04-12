@@ -7,8 +7,19 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.25"></a>
+## [v1.0.25] - 2023-04-12
+
+- refactor/support-aws-provider-v4
+- fix: use aws.primary in v4 resources instead of inherited provider
+- refactor: use s3 acl resource instead of acl arg
+- docs: update readme to reflect new resource usage
+- refactor: use s3 sse config resource instead of block
+- refactor: use bucket versioning resource instead of block
+
+
 <a name="v1.0.24"></a>
-## [v1.0.24] - 0001-01-01
+## [v1.0.24] - 2023-02-02
 
 
 
@@ -239,7 +250,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.24...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.25...HEAD
+[v1.0.25]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.24...v1.0.25
 [v1.0.24]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.23...v1.0.24
 [v1.0.23]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.22...v1.0.23
 [v1.0.22]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.21...v1.0.22

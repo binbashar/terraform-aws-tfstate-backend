@@ -238,6 +238,12 @@ variable "replica_logging" {
   description = "Bucket access logging configuration."
 }
 
+variable "bucket_lifecycle_enabled" {
+  type        = bool
+  description = "Enable/Disable bucket lifecycle"
+  default     = true
+}
+
 variable "bucket_lifecycle_expiration" {
   type        = number
   default     = 90

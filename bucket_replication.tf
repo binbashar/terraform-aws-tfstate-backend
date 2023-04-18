@@ -28,6 +28,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "replication_bucke
 
   rule {
     apply_server_side_encryption_by_default {
+      kms_master_key_id = var.create_kms_key ? aws_kms_key.primary[0].id : null
       sse_algorithm = var.create_kms_key ? "aws:kms" : "AES256"
     }
   }
@@ -45,6 +46,7 @@ resource "aws_s3_bucket_versioning" "replication_bucket" {
 
 
 resource "aws_s3_bucket_lifecycle_configuration" "replication_bucket" {
+  count = (var.bucket_replication_enabled && var.bucket_lifecycle_enabled) ? 1 : 0
   provider   = aws.secondary
   depends_on = [aws_s3_bucket_versioning.replication_bucket]
 
@@ -115,20 +117,11 @@ resource "aws_iam_role" "bucket_replication" {
 POLICY
 }
 
-data "aws_kms_key" "secondary" {
-  count = var.create_kms_key == true ? 0 : 1
-  provider = aws.secondary
-
-  key_id = aws_s3_bucket.default.id
-
-  depends_on = [
-    aws_kms_key.primary
-  ]
-}
-
 data "aws_iam_policy_document" "bucket_replication" {
+  count = var.bucket_replication_enabled ? 1 : 0
+
   statement {
-    sid       = ""
+    sid       = "1"
     effect    = "Allow"
     resources = ["${aws_s3_bucket.default.arn}"]
 
@@ -139,7 +132,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   }
 
   statement {
-    sid       = ""
+    sid       = "2"
     effect    = "Allow"
     resources = ["${aws_s3_bucket.default.arn}/*"]
 
@@ -152,7 +145,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   dynamic "statement" {
     for_each = var.create_kms_key == true ? [1] : []
     content {
-      sid       = ""
+      sid       = "3"
       effect    = "Allow"
       resources = ["${aws_s3_bucket.replication_bucket[0].arn}/*"]
 
@@ -165,7 +158,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   dynamic "statement" {
     for_each = var.create_kms_key  == true ? [1] : []
     content {
-      sid    = ""
+      sid    = "4"
       effect = "Allow"
       resources = [
         "arn:aws:kms:${aws_s3_bucket.default.region}:${data.aws_caller_identity.primary.account_id}:key/${aws_kms_key.primary[0].key_id}",
@@ -180,7 +173,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   }
 
   statement {
-    sid       = ""
+    sid       = "6"
     effect    = "Allow"
     resources = ["${aws_s3_bucket.replication_bucket[0].arn}/*"]
 
@@ -201,7 +194,7 @@ resource "aws_iam_policy" "bucket_replication" {
 
   provider = aws.primary
   name     = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name_suffix)
-  policy   = data.aws_iam_policy_document.bucket_replication.json
+  policy   = data.aws_iam_policy_document.bucket_replication[0].json
 
   depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_30_secs]
 }

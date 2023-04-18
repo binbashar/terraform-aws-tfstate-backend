@@ -45,14 +45,13 @@ resource "aws_s3_bucket_acl" "default" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
-  count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 
   bucket = aws_s3_bucket.default.bucket
 
   rule {
     apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.primary[0].id
+      kms_master_key_id = var.create_kms_key ? aws_kms_key.primary[0].id : null
       sse_algorithm     = var.create_kms_key ? "aws:kms" : "AES256"
     }
   }
@@ -71,7 +70,9 @@ resource "aws_s3_bucket_versioning" "default" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "default" {
+  count = var.bucket_lifecycle_enabled ? 1 : 0
   provider   = aws.primary
+
   depends_on = [aws_s3_bucket_versioning.default]
 
   bucket = aws_s3_bucket.default.id

@@ -116,9 +116,14 @@ POLICY
 }
 
 data "aws_kms_key" "secondary" {
+  count = var.create_kms_key == true ? 0 : 1
   provider = aws.secondary
 
   key_id = aws_s3_bucket.default.id
+
+  depends_on = [
+    aws_kms_key.primary
+  ]
 }
 
 data "aws_iam_policy_document" "bucket_replication" {
@@ -163,8 +168,8 @@ data "aws_iam_policy_document" "bucket_replication" {
       sid    = ""
       effect = "Allow"
       resources = [
-        aws_kms_key.primary[0].arn,
-        data.aws_kms_key.secondary[0].arn
+        "arn:aws:kms:${aws_s3_bucket.default.region}:${data.aws_caller_identity.primary.account_id}:key/${aws_kms_key.primary[0].key_id}",
+        "arn:aws:kms:${aws_s3_bucket.replication_bucket[0].region}:${data.aws_caller_identity.primary.account_id}:key/${aws_kms_key.primary[0].key_id}"
       ]
 
       actions = [

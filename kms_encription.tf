@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "primary" {
     content {
       sid       = "Allow access for Key User (SNS Service Principal)"
       effect    = "Allow"
-      resources = [aws_kms_key.kms[0].arn]
+      resources = [aws_kms_key.primary[0].arn]
 
       actions = [
         "kms:GenerateDataKey*",

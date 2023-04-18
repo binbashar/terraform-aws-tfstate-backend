@@ -1,5 +1,5 @@
 data "aws_iam_policy_document" "topic" {
-  count = var.notifications_sns ? 1 : 0
+  count    = var.notifications_sns ? 1 : 0
   provider = aws.primary
 
   statement {
@@ -22,7 +22,7 @@ data "aws_iam_policy_document" "topic" {
 }
 
 resource "aws_sns_topic" "topic" {
-  count = var.notifications_sns ? 1 : 0
+  count    = var.notifications_sns ? 1 : 0
   provider = aws.primary
 
   name              = "${aws_s3_bucket.bucket.bucket}-topic}"

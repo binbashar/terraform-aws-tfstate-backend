@@ -66,17 +66,17 @@ data "aws_iam_policy_document" "primary" {
 }
 
 resource "aws_kms_key" "primary" {
-  count = var.create_kms_key ? 1 : 0
+  count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 
   description             = "${aws_s3_bucket.bucket.bucket}-key"
   deletion_window_in_days = var.kms_key_deletion_windows
   enable_key_rotation     = var.kms_key_rotation
-  multi_region = var.bucket_replication_enabled ? "true" : "false"
+  multi_region            = var.bucket_replication_enabled ? "true" : "false"
 }
 
 resource "aws_kms_key_policy" "this" {
-  count = var.create_kms_key ? 1 : 0
+  count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 
   key_id = aws_kms_key.primary.id

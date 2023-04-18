@@ -249,7 +249,7 @@ variable "bucket_lifecycle_transition_glacier" {
   default     = 60
   description = "Number of days after which to move the data to the GLACIER storage class"
 }
-  
+
 variable "bucket_lifecycle_transition_standard_ia" {
   type        = number
   default     = 30

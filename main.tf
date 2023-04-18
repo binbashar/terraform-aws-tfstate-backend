@@ -45,7 +45,7 @@ resource "aws_s3_bucket_acl" "default" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
-  count = var.create_kms_key ? 1 : 0
+  count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 
   bucket = aws_s3_bucket.default.bucket
@@ -71,7 +71,7 @@ resource "aws_s3_bucket_versioning" "default" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "default" {
-  provider = aws.primary
+  provider   = aws.primary
   depends_on = [aws_s3_bucket_versioning.default]
 
   bucket = aws_s3_bucket.default.id

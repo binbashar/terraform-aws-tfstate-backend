@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "replication_bucket" {
   provider = aws.secondary
   bucket   = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name)
 
-    dynamic "logging" {
+  dynamic "logging" {
     for_each = var.replica_logging == null ? [] : [1]
     content {
       target_bucket = var.replica_logging["bucket_name"]
@@ -22,19 +22,21 @@ resource "aws_s3_bucket" "replication_bucket" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "replication_bucket" {
-  count  = var.bucket_replication_enabled ? 1 : 0
-  bucket = aws_s3_bucket.replication_bucket[0].id
+  count    = var.bucket_replication_enabled ? 1 : 0
+  provider = aws.secondary
+  bucket   = aws_s3_bucket.replication_bucket[0].id
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm     = var.create_kms_key ? "aws:kms" : "AES256"
+      sse_algorithm = var.create_kms_key ? "aws:kms" : "AES256"
     }
   }
 }
 
 resource "aws_s3_bucket_versioning" "replication_bucket" {
-  count  = var.bucket_replication_enabled ? 1 : 0
-  bucket = aws_s3_bucket.replication_bucket[0].id
+  count    = var.bucket_replication_enabled ? 1 : 0
+  provider = aws.secondary
+  bucket   = aws_s3_bucket.replication_bucket[0].id
 
   versioning_configuration {
     status = "Enabled"
@@ -43,7 +45,7 @@ resource "aws_s3_bucket_versioning" "replication_bucket" {
 
 
 resource "aws_s3_bucket_lifecycle_configuration" "replication_bucket" {
-  provider = aws.secondary
+  provider   = aws.secondary
   depends_on = [aws_s3_bucket_versioning.replication_bucket]
 
   bucket = aws_s3_bucket.replication_bucket.id
@@ -158,8 +160,8 @@ data "aws_iam_policy_document" "bucket_replication" {
   dynamic "statement" {
     for_each = var.create_kms_key
     content {
-      sid       = ""
-      effect    = "Allow"
+      sid    = ""
+      effect = "Allow"
       resources = [
         aws_kms_key.primary[0].arn,
         data.aws_kms_key.secondary[0].arn

@@ -73,6 +73,12 @@ No modules.
 | <a name="input_acl"></a> [acl](#input\_acl) | The canned ACL to apply to the S3 bucket | `string` | `"private"` | no |
 | <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional tags for appending to each tag map | `map(string)` | `{}` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | Additional attributes (e.g. `state`) | `list(string)` | <pre>[<br>  "state"<br>]</pre> | no |
+| <a name="input_backend_config_filename"></a> [backend\_config\_filename](#input\_backend\_config\_filename) | Name of the backend configuration file to generate. | `string` | `"backend.tf"` | no |
+| <a name="input_backend_config_filepath"></a> [backend\_config\_filepath](#input\_backend\_config\_filepath) | Directory where the backend configuration file should be generated. | `string` | `""` | no |
+| <a name="input_backend_config_profile"></a> [backend\_config\_profile](#input\_backend\_config\_profile) | AWS profile to use when interfacing the backend infrastructure. | `string` | `""` | no |
+| <a name="input_backend_config_role_arn"></a> [backend\_config\_role\_arn](#input\_backend\_config\_role\_arn) | ARN of the AWS role to assume when interfacing the backend infrastructure, if any. | `string` | `""` | no |
+| <a name="input_backend_config_state_file"></a> [backend\_config\_state\_file](#input\_backend\_config\_state\_file) | Name of the state file in the S3 bucket to use. | `string` | `"terraform.tfstate"` | no |
+| <a name="input_backend_config_template_file"></a> [backend\_config\_template\_file](#input\_backend\_config\_template\_file) | Path to the template file to use when generating the backend configuration. | `string` | `""` | no |
 | <a name="input_block_public_acls"></a> [block\_public\_acls](#input\_block\_public\_acls) | Whether Amazon S3 should block public ACLs for this bucket. | `bool` | `false` | no |
 | <a name="input_block_public_policy"></a> [block\_public\_policy](#input\_block\_public\_policy) | Whether Amazon S3 should block public bucket policies for this bucket. | `bool` | `false` | no |
 | <a name="input_bucket_replication_enabled"></a> [bucket\_replication\_enabled](#input\_bucket\_replication\_enabled) | Enable/Disable replica for S3 bucket (for cross region replication purpose) | `bool` | `false` | no |
@@ -162,6 +168,32 @@ module "terraform_state_backend" {
   }
 }
 ```
+
+### Generating the backend configuration automatically
+
+If you choose to include this module in your own Terraform configuration to
+provision the backend supporting infrastructure, you can generate the backend
+configuration file automatically with this module.
+
+To do so, use this module as usual, but provide at least the following input:
+
+- `backend_config_filepath = "."`
+
+By default, this will make it so a `backend.tf` file with the backend
+configuration is generated in the current working directory. Once you have
+provisioned the infrastructure with `terraform init && terraform apply`, you
+can copy over Terraform's state file to the backend bucket with the following
+command:
+
+```bash
+terraform init -force-copy
+```
+
+Afterwards, your Terraform state will have been copied over to the S3 bucket
+and Terraform is now ready to use it as a backend.
+
+Refer to the list of `backend_config_*` inputs for more information on how to
+tailor this behavior to your use case.
 
 ---
 

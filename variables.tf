@@ -195,3 +195,39 @@ variable "dynamodb_monitoring" {
   description = "DynamoDB monitoring settings."
   default     = {}
 }
+
+variable "backend_config_template_file" {
+  type        = string
+  description = "Path to the template file to use when generating the backend configuration."
+  default     = ""
+}
+
+variable "backend_config_filepath" {
+  type        = string
+  description = "Directory where the backend configuration file should be generated."
+  default     = ""
+}
+
+variable "backend_config_filename" {
+  type        = string
+  description = "Name of the backend configuration file to generate."
+  default     = "backend.tf"
+}
+
+variable "backend_config_profile" {
+  type        = string
+  description = "AWS profile to use when interfacing the backend infrastructure."
+  default     = ""
+}
+
+variable "backend_config_role_arn" {
+  type        = string
+  description = "ARN of the AWS role to assume when interfacing the backend infrastructure, if any."
+  default     = ""
+}
+
+variable "backend_config_state_file" {
+  type        = string
+  description = "Name of the state file in the S3 bucket to use."
+  default     = "terraform.tfstate"
+}

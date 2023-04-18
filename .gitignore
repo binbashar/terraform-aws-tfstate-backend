@@ -16,6 +16,7 @@
 !*.gitkeep
 !*.editorconfig
 !*.pre-commit-config.yaml
+!.checkov.yml
 
 # SSH keys #
 ############

@@ -109,25 +109,31 @@ variable "enable_server_side_encryption" {
 variable "block_public_acls" {
   type        = bool
   description = "Whether Amazon S3 should block public ACLs for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "ignore_public_acls" {
   type        = bool
   description = "Whether Amazon S3 should ignore public ACLs for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "block_public_policy" {
   type        = bool
   description = "Whether Amazon S3 should block public bucket policies for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "restrict_public_buckets" {
   type        = bool
   description = "Whether Amazon S3 should restrict public bucket policies for this bucket."
-  default     = false
+  default     = true
+}
+
+variable "topic_arn" {
+  type        = string
+  description = "Topic ARN to send notifications to"
+  default     = null
 }
 
 variable "regex_replace_chars" {

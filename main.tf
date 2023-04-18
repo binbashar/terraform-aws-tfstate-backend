@@ -1,6 +1,9 @@
 resource "aws_s3_bucket" "default" {
   provider = aws.primary
 
+  #TODO: add lifecycle policy
+  # checkov:skip=CKV2_AWS_61:This bucket will store the state files, not needing a lifecycle policy
+
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
   force_destroy = var.force_destroy
 
@@ -75,6 +78,22 @@ resource "aws_s3_bucket_public_access_block" "default" {
   block_public_policy     = var.block_public_policy
   restrict_public_buckets = var.restrict_public_buckets
   depends_on              = [aws_s3_bucket.default]
+}
+
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  #TODO: conditional creation
+  bucket = aws_s3_bucket.default.id
+
+  topic {
+    topic_arn     = var.topic_arn
+    #TODO: move eventos to a variable
+    events        = [
+      "s3:ObjectCreated:*",
+      "s3:ObjectRemoved:*",
+      "s3:ObjectRestore:*",
+      "s3:Replication:*"
+      ]
+  }
 }
 
 resource "time_sleep" "wait_30_secs" {

@@ -1,9 +1,6 @@
 resource "aws_s3_bucket" "default" {
   provider = aws.primary
 
-  #TODO: add lifecycle policy
-  # checkov:skip=CKV2_AWS_61:This bucket will store the state files, not needing a lifecycle policy
-
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
   force_destroy = var.force_destroy
 
@@ -48,12 +45,15 @@ resource "aws_s3_bucket_acl" "default" {
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
+  count = var.create_kms_key ? 1 : 0
   provider = aws.primary
-  bucket   = aws_s3_bucket.default.id
+
+  bucket = aws_s3_bucket.default.bucket
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      kms_master_key_id = aws_kms_key.this.id
+      sse_algorithm     = var.create_kms_key ? "aws:kms" : "AES256"
     }
   }
 }
@@ -70,6 +70,42 @@ resource "aws_s3_bucket_versioning" "default" {
   mfa = var.mfa_delete ? "${var.mfa_serial} ${var.mfa_secret}" : null
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "default" {
+  provider = aws.primary
+  depends_on = [aws_s3_bucket_versioning.default]
+
+  bucket = aws_s3_bucket.default.id
+
+  rule {
+    id = "Noncurrent expiration"
+
+    noncurrent_version_expiration {
+      noncurrent_days = var.bucket_lifecycle_expiration
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = var.bucket_lifecycle_transition_standard_ia
+      storage_class   = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = var.bucket_lifecycle_transition_glacier
+      storage_class   = "GLACIER"
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "Abort incomplete multipart uploads"
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+
+    status = "Enabled"
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "default" {
   provider                = aws.primary
   bucket                  = aws_s3_bucket.default.id
@@ -78,22 +114,6 @@ resource "aws_s3_bucket_public_access_block" "default" {
   block_public_policy     = var.block_public_policy
   restrict_public_buckets = var.restrict_public_buckets
   depends_on              = [aws_s3_bucket.default]
-}
-
-resource "aws_s3_bucket_notification" "bucket_notification" {
-  #TODO: conditional creation
-  bucket = aws_s3_bucket.default.id
-
-  topic {
-    topic_arn     = var.topic_arn
-    #TODO: move eventos to a variable
-    events        = [
-      "s3:ObjectCreated:*",
-      "s3:ObjectRemoved:*",
-      "s3:ObjectRestore:*",
-      "s3:Replication:*"
-      ]
-  }
 }
 
 resource "time_sleep" "wait_30_secs" {
@@ -108,10 +128,15 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
   read_capacity  = var.read_capacity
   write_capacity = var.write_capacity
+  billing_mode   = var.billing_mode
   hash_key       = "LockID" # https://www.terraform.io/docs/backends/types/s3.html#dynamodb_table
 
   server_side_encryption {
     enabled = true
+  }
+
+  point_in_time_recovery {
+    enabled = var.enable_point_in_time_recovery
   }
 
   lifecycle {
@@ -135,11 +160,17 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
 resource "aws_dynamodb_table" "without_server_side_encryption" {
   count = var.enable_server_side_encryption == "true" ? 0 : 1
 
+  # checkov:skip=CKV_AWS_119:This resource is intended to be used with server side encryption disabled
+
   provider       = aws.primary
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
   read_capacity  = var.read_capacity
   write_capacity = var.write_capacity
+  billing_mode   = var.billing_mode
   hash_key       = "LockID"
+  point_in_time_recovery {
+    enabled = var.enable_point_in_time_recovery
+  }
 
   lifecycle {
     ignore_changes = [
@@ -158,7 +189,6 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
     Environment = var.stage
   }
 }
-
 
 locals {
   dynamodb_monitoring_enabled       = try(var.dynamodb_monitoring["enabled"], false)

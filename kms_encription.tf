@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "primary" {
   statement { #Allow access for Root User
     sid       = "Allow access for Root User"
     effect    = "Allow"
-    resources = [aws_kms_key.kms[0].arn]
+    resources = [aws_kms_key.primary[0].arn]
     actions   = ["kms:*"]
 
     principals {
@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "primary" {
   statement { #Allow access for Key Administrator
     sid       = "Allow access for Key Administrator"
     effect    = "Allow"
-    resources = [aws_kms_key.kms[0].arn]
+    resources = [aws_kms_key.primary[0].arn]
 
     actions = [
       "kms:Create*",
@@ -69,7 +69,7 @@ resource "aws_kms_key" "primary" {
   count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 
-  description             = "${aws_s3_bucket.bucket.bucket}-key"
+  description             = "${aws_s3_bucket.default.bucket}-key"
   deletion_window_in_days = var.kms_key_deletion_windows
   enable_key_rotation     = var.kms_key_rotation
   multi_region            = var.bucket_replication_enabled ? "true" : "false"
@@ -79,6 +79,6 @@ resource "aws_kms_key_policy" "this" {
   count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 
-  key_id = aws_kms_key.primary.id
+  key_id = aws_kms_key.primary[0].id
   policy = data.aws_iam_policy_document.primary[0].json
 }

@@ -48,7 +48,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "replication_bucket" {
   provider   = aws.secondary
   depends_on = [aws_s3_bucket_versioning.replication_bucket]
 
-  bucket = aws_s3_bucket.replication_bucket.id
+  bucket = aws_s3_bucket.replication_bucket[0].id
 
   rule {
     id = "noncurrent_expiration"
@@ -145,7 +145,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   }
 
   dynamic "statement" {
-    for_each = var.create_kms_key
+    for_each = var.create_kms_key == true ? [1] : []
     content {
       sid       = ""
       effect    = "Allow"
@@ -158,7 +158,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   }
 
   dynamic "statement" {
-    for_each = var.create_kms_key
+    for_each = var.create_kms_key  == true ? [1] : []
     content {
       sid    = ""
       effect = "Allow"
@@ -196,7 +196,7 @@ resource "aws_iam_policy" "bucket_replication" {
 
   provider = aws.primary
   name     = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name_suffix)
-  policy   = data.aws_iam_policy_document.bucket_replication[0].json
+  policy   = data.aws_iam_policy_document.bucket_replication.json
 
   depends_on = [aws_s3_bucket.replication_bucket, aws_s3_bucket_public_access_block.default, time_sleep.wait_30_secs]
 }

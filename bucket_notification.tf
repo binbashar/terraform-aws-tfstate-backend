@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "topic" {
     condition {
       test     = "ArnLike"
       variable = "aws:SourceArn"
-      values   = [aws_s3_bucket.bucket.arn]
+      values   = [aws_s3_bucket.default.arn]
     }
   }
 }
@@ -25,9 +25,9 @@ resource "aws_sns_topic" "topic" {
   count    = var.notifications_sns ? 1 : 0
   provider = aws.primary
 
-  name              = "${aws_s3_bucket.bucket.bucket}-topic}"
+  name              = "${aws_s3_bucket.default.bucket}-topic"
   policy            = data.aws_iam_policy_document.topic[0].json
-  kms_master_key_id = aws_kms_key.key[0].arn
+  kms_master_key_id = aws_kms_key.primary[0].arn
 }
 
 data "aws_iam_policy_document" "queue" {

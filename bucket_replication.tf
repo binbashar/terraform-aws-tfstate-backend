@@ -221,11 +221,6 @@ data "aws_iam_policy_document" "bucket_replication" {
 resource "aws_iam_policy" "bucket_replication" {
   count = var.bucket_replication_enabled ? 1 : 0
 
-  # checkov:skip=CKV_AWS_53:
-  # checkov:skip=CKV_AWS_54:
-  # checkov:skip=CKV_AWS_55:
-  # checkov:skip=CKV_AWS_56:
-
   provider = aws.primary
   name     = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name_suffix)
   policy   = data.aws_iam_policy_document.bucket_replication[0].json

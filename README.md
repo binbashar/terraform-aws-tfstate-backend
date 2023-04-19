@@ -31,15 +31,17 @@ We have a tfstate S3 Bucket per account
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.9 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1.9 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 4.0 |
 | <a name="provider_aws.primary"></a> [aws.primary](#provider\_aws.primary) | ~> 4.0 |
 | <a name="provider_aws.secondary"></a> [aws.secondary](#provider\_aws.secondary) | ~> 4.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | n/a |
 | <a name="provider_time"></a> [time](#provider\_time) | n/a |
 
 ## Modules
@@ -50,21 +52,46 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_cloudwatch_metric_alarm.dynamodb_capacity](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_dynamodb_table.with_server_side_encryption](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
 | [aws_dynamodb_table.without_server_side_encryption](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) | resource |
 | [aws_iam_policy.bucket_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_policy_attachment.bucket_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy_attachment) | resource |
 | [aws_iam_role.bucket_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_kms_key.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
+| [aws_kms_key_policy.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key_policy) | resource |
+| [aws_kms_key_policy.secondary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key_policy) | resource |
+| [aws_kms_replica_key.secondary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_replica_key) | resource |
 | [aws_s3_bucket.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket.replication_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
+| [aws_s3_bucket_acl.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_acl) | resource |
+| [aws_s3_bucket_lifecycle_configuration.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_lifecycle_configuration.replication_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_notification.bucket_notification](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_notification) | resource |
 | [aws_s3_bucket_policy.bucket_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_policy.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_policy.default-ssl-vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_public_access_block.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
 | [aws_s3_bucket_public_access_block.replication_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
+| [aws_s3_bucket_replication_configuration.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_replication_configuration) | resource |
+| [aws_s3_bucket_server_side_encryption_configuration.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_s3_bucket_server_side_encryption_configuration.replication_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
+| [aws_s3_bucket_versioning.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+| [aws_s3_bucket_versioning.replication_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+| [aws_sns_topic.topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sns_topic) | resource |
+| [aws_sqs_queue.queue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue) | resource |
+| [local_file.backend_config](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [time_sleep.wait_30_secs](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
+| [aws_caller_identity.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_caller_identity.secondary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
+| [aws_iam_policy_document.bucket_replication](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.default-ssl](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.default-ssl-vpc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.queue](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.secondary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_policy_document.topic](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
@@ -79,27 +106,43 @@ No modules.
 | <a name="input_backend_config_role_arn"></a> [backend\_config\_role\_arn](#input\_backend\_config\_role\_arn) | ARN of the AWS role to assume when interfacing the backend infrastructure, if any. | `string` | `""` | no |
 | <a name="input_backend_config_state_file"></a> [backend\_config\_state\_file](#input\_backend\_config\_state\_file) | Name of the state file in the S3 bucket to use. | `string` | `"terraform.tfstate"` | no |
 | <a name="input_backend_config_template_file"></a> [backend\_config\_template\_file](#input\_backend\_config\_template\_file) | Path to the template file to use when generating the backend configuration. | `string` | `""` | no |
-| <a name="input_block_public_acls"></a> [block\_public\_acls](#input\_block\_public\_acls) | Whether Amazon S3 should block public ACLs for this bucket. | `bool` | `false` | no |
-| <a name="input_block_public_policy"></a> [block\_public\_policy](#input\_block\_public\_policy) | Whether Amazon S3 should block public bucket policies for this bucket. | `bool` | `false` | no |
-| <a name="input_bucket_replication_enabled"></a> [bucket\_replication\_enabled](#input\_bucket\_replication\_enabled) | Enable/Disable replica for S3 bucket (for cross region replication purpose) | `bool` | `false` | no |
+| <a name="input_billing_mode"></a> [billing\_mode](#input\_billing\_mode) | DynamoDB billing mode. Can be PROVISIONED or PAY\_PER\_REQUEST | `string` | `"PAY_PER_REQUEST"` | no |
+| <a name="input_block_public_acls"></a> [block\_public\_acls](#input\_block\_public\_acls) | Whether Amazon S3 should block public ACLs for this bucket. | `bool` | `true` | no |
+| <a name="input_block_public_policy"></a> [block\_public\_policy](#input\_block\_public\_policy) | Whether Amazon S3 should block public bucket policies for this bucket. | `bool` | `true` | no |
+| <a name="input_bucket_lifecycle_enabled"></a> [bucket\_lifecycle\_enabled](#input\_bucket\_lifecycle\_enabled) | Enable/Disable bucket lifecycle | `bool` | `true` | no |
+| <a name="input_bucket_lifecycle_expiration"></a> [bucket\_lifecycle\_expiration](#input\_bucket\_lifecycle\_expiration) | Number of days after which to expunge the objects | `number` | `90` | no |
+| <a name="input_bucket_lifecycle_transition_glacier"></a> [bucket\_lifecycle\_transition\_glacier](#input\_bucket\_lifecycle\_transition\_glacier) | Number of days after which to move the data to the GLACIER storage class | `number` | `60` | no |
+| <a name="input_bucket_lifecycle_transition_standard_ia"></a> [bucket\_lifecycle\_transition\_standard\_ia](#input\_bucket\_lifecycle\_transition\_standard\_ia) | Number of days after which to move the data to the STANDARD\_IA storage class | `number` | `30` | no |
+| <a name="input_bucket_replication_enabled"></a> [bucket\_replication\_enabled](#input\_bucket\_replication\_enabled) | Enable/Disable replica for S3 bucket (for cross region replication purpose) | `bool` | `true` | no |
+| <a name="input_bucket_replication_name"></a> [bucket\_replication\_name](#input\_bucket\_replication\_name) | Set custom name for S3 Bucket Replication | `string` | `"replica"` | no |
+| <a name="input_bucket_replication_name_suffix"></a> [bucket\_replication\_name\_suffix](#input\_bucket\_replication\_name\_suffix) | Set custom suffix for S3 Bucket Replication IAM Role/Policy | `string` | `"bucket-replication"` | no |
 | <a name="input_context"></a> [context](#input\_context) | Default context to use for passing state between label invocations | `map(string)` | `{}` | no |
+| <a name="input_create_kms_key"></a> [create\_kms\_key](#input\_create\_kms\_key) | Whether to create a KMS key | `bool` | `true` | no |
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes` | `string` | `"-"` | no |
+| <a name="input_dynamodb_monitoring"></a> [dynamodb\_monitoring](#input\_dynamodb\_monitoring) | DynamoDB monitoring settings. | `any` | `{}` | no |
+| <a name="input_enable_point_in_time_recovery"></a> [enable\_point\_in\_time\_recovery](#input\_enable\_point\_in\_time\_recovery) | Enable DynamoDB point in time recovery | `bool` | `true` | no |
 | <a name="input_enable_server_side_encryption"></a> [enable\_server\_side\_encryption](#input\_enable\_server\_side\_encryption) | Enable DynamoDB server-side encryption | `bool` | `true` | no |
 | <a name="input_enforce_ssl_requests"></a> [enforce\_ssl\_requests](#input\_enforce\_ssl\_requests) | Enable/Disable replica for S3 bucket (for cross region replication purpose) | `bool` | `false` | no |
 | <a name="input_enforce_vpc_requests"></a> [enforce\_vpc\_requests](#input\_enforce\_vpc\_requests) | Enable/Disable VPC endpoint for S3 bucket | `bool` | `false` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment, e.g. 'prod', 'staging', 'dev', 'pre-prod', 'UAT' | `string` | `""` | no |
 | <a name="input_force_destroy"></a> [force\_destroy](#input\_force\_destroy) | A boolean that indicates the S3 bucket can be destroyed even if it contains objects. These objects are not recoverable | `bool` | `false` | no |
-| <a name="input_ignore_public_acls"></a> [ignore\_public\_acls](#input\_ignore\_public\_acls) | Whether Amazon S3 should ignore public ACLs for this bucket. | `bool` | `false` | no |
+| <a name="input_ignore_public_acls"></a> [ignore\_public\_acls](#input\_ignore\_public\_acls) | Whether Amazon S3 should ignore public ACLs for this bucket. | `bool` | `true` | no |
+| <a name="input_kms_key_deletion_windows"></a> [kms\_key\_deletion\_windows](#input\_kms\_key\_deletion\_windows) | The number of days after which the KMS key is deleted after destruction of the resource, must be between 7 and 30 days | `number` | `7` | no |
+| <a name="input_kms_key_rotation"></a> [kms\_key\_rotation](#input\_kms\_key\_rotation) | Specifies whether key rotation is enabled | `bool` | `true` | no |
 | <a name="input_label_order"></a> [label\_order](#input\_label\_order) | The naming order of the id output and Name tag | `list(string)` | `[]` | no |
 | <a name="input_logging"></a> [logging](#input\_logging) | Bucket access logging configuration. | <pre>object({<br>    bucket_name = string<br>    prefix      = string<br>  })</pre> | `null` | no |
 | <a name="input_mfa_delete"></a> [mfa\_delete](#input\_mfa\_delete) | A boolean that indicates that versions of S3 objects can only be deleted with MFA. ( Terraform cannot apply changes of this value; https://github.com/terraform-providers/terraform-provider-aws/issues/629 ) | `bool` | `false` | no |
-| <a name="input_mfa_serial"></a> [mfa\_serial](#input\_mfa\_serial) | The serial number of the MFA device to use when deleting versions of S3 objects. Necessary if `mfa_delete` is true. | `string` | `""` | no |
-| <a name="input_mfa_secret"></a> [mfa\_secret](#input\_mfa\_secret) | The number displayed on the MFA device. Necessary if `mfa_delete` is true. | `string` | `""` | no |
+| <a name="input_mfa_secret"></a> [mfa\_secret](#input\_mfa\_secret) | The numbers displayed on the MFA device when applying. Necessary when mfa\_delete is true. | `string` | `""` | no |
+| <a name="input_mfa_serial"></a> [mfa\_serial](#input\_mfa\_serial) | The serial number of the MFA device to use. Necessary when mfa\_delete is true. | `string` | `""` | no |
 | <a name="input_name"></a> [name](#input\_name) | Solution name, e.g. 'app' or 'jenkins' | `string` | `"terraform"` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace, which could be your organization name or abbreviation, e.g. 'eg' or 'cp' | `string` | `""` | no |
+| <a name="input_notifications_events"></a> [notifications\_events](#input\_notifications\_events) | List of events to enable notifications for | `list(string)` | <pre>[<br>  "s3:ObjectCreated:*",<br>  "s3:ObjectRemoved:*"<br>]</pre> | no |
+| <a name="input_notifications_sns"></a> [notifications\_sns](#input\_notifications\_sns) | Whether to enable SNS notifications | `bool` | `true` | no |
+| <a name="input_notifications_sqs"></a> [notifications\_sqs](#input\_notifications\_sqs) | Wether to enable SQS notifications | `bool` | `false` | no |
 | <a name="input_read_capacity"></a> [read\_capacity](#input\_read\_capacity) | DynamoDB read capacity units | `number` | `5` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Regex to replace chars with empty string in `namespace`, `environment`, `stage` and `name`. By default only hyphens, letters and digits are allowed, all other chars are removed | `string` | `"/[^a-zA-Z0-9-]/"` | no |
-| <a name="input_restrict_public_buckets"></a> [restrict\_public\_buckets](#input\_restrict\_public\_buckets) | Whether Amazon S3 should restrict public bucket policies for this bucket. | `bool` | `false` | no |
+| <a name="input_replica_logging"></a> [replica\_logging](#input\_replica\_logging) | Bucket access logging configuration. | <pre>object({<br>    bucket_name = string<br>    prefix      = string<br>  })</pre> | `null` | no |
+| <a name="input_restrict_public_buckets"></a> [restrict\_public\_buckets](#input\_restrict\_public\_buckets) | Whether Amazon S3 should restrict public bucket policies for this bucket. | `bool` | `true` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release' | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `map('BusinessUnit','XYZ')` | `map(string)` | `{}` | no |
 | <a name="input_vpc_ids_list"></a> [vpc\_ids\_list](#input\_vpc\_ids\_list) | VPC id to access the S3 bucket vía vpc endpoint. The VPCe must be in the same AWS Region as the bucket. | `list(string)` | `[]` | no |
@@ -123,6 +166,7 @@ No modules.
 #
 # Terraform aws tfstate backend
 #
+
 provider "aws" {
   region  = "us-east-1
 }
@@ -132,14 +176,13 @@ provider "aws" {
   alias   = "secondary"
 }
 
-# The following creates a Terraform State Backend with Bucket Replication enabled
+# The following creates a Terraform State Backend with Bucket Replication and all security nd compliance enhacements enabled
 module "terraform_state_backend_with_replication" {
   source        = "../../"
   namespace     = "binbash"
   stage         = "test"
   name          = "terraform"
   attributes    = ["state"]
-  region        = "us-east-1"
 
   bucket_replication_enabled = true
 
@@ -156,7 +199,6 @@ module "terraform_state_backend" {
   stage         = "test"
   name          = "terraform-test"
   attributes    = ["state"]
-  region        = "us-east-1"
 
   # By default replication is disabled but it shows below for the sake of the example
   bucket_replication_enabled = false
@@ -166,6 +208,38 @@ module "terraform_state_backend" {
     aws.primary   = aws
     aws.secondary = aws.secondary
   }
+
+  # If you are moving from a previus version and want to avoid all or some of the security and compliance features you can use this example. However, we encourage to use this enhacements.
+module "terraform_state_backend_with_replication" {
+  source        = "../../"
+  namespace     = "binbash"
+  stage         = "test"
+  name          = "terraform"
+  attributes    = ["state"]
+
+  bucket_replication_enabled = true
+
+  ## Avoid changes
+  # General
+  create_kms_key = false
+  # S3
+  block_public_acls = false
+  ignore_public_acls = false
+  block_public_policy = false
+  restrict_public_buckets = false
+  notifications_sns = false
+  notifications_sqs = false
+  bucket_lifecycle_enabled = false
+  # DynamoDB
+  enable_point_in_time_recovery = false
+  billing_mode                  = "PROVISIONED"
+
+  providers = {
+    aws.primary   = aws
+    aws.secondary = aws.secondary
+  }
+}
+
 }
 ```
 

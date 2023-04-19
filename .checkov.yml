@@ -13,5 +13,4 @@ secrets-history-timeout: 12h
 secrets-scan-file-type: []
 skip-path:
 - examples
-- test
 summary-position: top

@@ -4,24 +4,6 @@ resource "aws_s3_bucket" "default" {
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
   force_destroy = var.force_destroy
 
-  dynamic "replication_configuration" {
-    for_each = var.bucket_replication_enabled ? ["true"] : []
-    content {
-      role = aws_iam_role.bucket_replication[0].arn
-
-      rules {
-        id     = "standard_bucket_replication"
-        prefix = ""
-        status = "Enabled"
-
-        destination {
-          bucket        = aws_s3_bucket.replication_bucket[0].arn
-          storage_class = "STANDARD"
-        }
-      }
-    }
-  }
-
   dynamic "logging" {
     for_each = var.logging == null ? [] : [1]
     content {
@@ -127,8 +109,8 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
 
   provider       = aws.primary
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
-  read_capacity  = var.read_capacity
-  write_capacity = var.write_capacity
+  read_capacity  = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
+  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
   billing_mode   = var.billing_mode
   hash_key       = "LockID" # https://www.terraform.io/docs/backends/types/s3.html#dynamodb_table
 
@@ -165,8 +147,8 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
 
   provider       = aws.primary
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
-  read_capacity  = var.read_capacity
-  write_capacity = var.write_capacity
+  read_capacity  = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
+  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
   billing_mode   = var.billing_mode
   hash_key       = "LockID"
   point_in_time_recovery {

@@ -21,6 +21,40 @@ resource "aws_s3_bucket" "replication_bucket" {
   }
 }
 
+resource "aws_s3_bucket_replication_configuration" "this" {
+count = var.bucket_replication_enabled ? 1 : 0
+
+  bucket = aws_s3_bucket.default.id
+  role = aws_iam_role.bucket_replication[0].arn
+
+  rule {
+    id     = "standard_bucket_replication"
+    prefix = ""
+    status = "Enabled"
+
+    destination {
+      bucket        = aws_s3_bucket.replication_bucket[0].arn
+      storage_class = "STANDARD"
+
+      dynamic "encryption_configuration" {
+      for_each = var.create_kms_key ? [1] : []
+      content {
+        replica_kms_key_id = aws_kms_replica_key.secondary[0].arn
+        }
+      }
+    }
+
+    dynamic "source_selection_criteria" {
+      for_each = var.create_kms_key ? [1] : []
+      content {
+        sse_kms_encrypted_objects {
+          status = "Enabled"
+        }
+      }
+    }
+  }
+}
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "replication_bucket" {
   count    = var.bucket_replication_enabled ? 1 : 0
   provider = aws.secondary
@@ -139,20 +173,8 @@ data "aws_iam_policy_document" "bucket_replication" {
     actions = [
       "s3:GetObjectVersion",
       "s3:GetObjectVersionAcl",
+      "s3:GetObjectVersionForReplication"
     ]
-  }
-
-  dynamic "statement" {
-    for_each = var.create_kms_key == true ? [1] : []
-    content {
-      sid       = "3"
-      effect    = "Allow"
-      resources = ["${aws_s3_bucket.replication_bucket[0].arn}/*"]
-
-      actions = [
-        "s3:GetObjectVersionForReplication"
-      ]
-    }
   }
 
   dynamic "statement" {
@@ -160,13 +182,24 @@ data "aws_iam_policy_document" "bucket_replication" {
     content {
       sid    = "4"
       effect = "Allow"
-      resources = [
-        "arn:aws:kms:${aws_s3_bucket.default.region}:${data.aws_caller_identity.primary.account_id}:key/${aws_kms_key.primary[0].key_id}",
-        "arn:aws:kms:${aws_s3_bucket.replication_bucket[0].region}:${data.aws_caller_identity.primary.account_id}:key/${aws_kms_key.primary[0].key_id}"
-      ]
+      resources = [aws_kms_key.primary[0].arn,]
 
       actions = [
         "kms:Decrypt",
+        "kms:GenerateDataKey"
+      ]
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.create_kms_key  == true ? [1] : []
+    content {
+      sid    = "5"
+      effect = "Allow"
+      resources = [aws_kms_replica_key.secondary[0].arn]
+
+      actions = [
+        "kms:GenerateDataKey",
         "kms:Encrypt"
       ]
     }
@@ -180,6 +213,7 @@ data "aws_iam_policy_document" "bucket_replication" {
     actions = [
       "s3:ReplicateObject",
       "s3:ReplicateDelete",
+      "s3:ReplicateTags"
     ]
   }
 }

@@ -72,7 +72,7 @@ data "aws_iam_policy_document" "primary" {
 }
 
 data "aws_iam_policy_document" "secondary" {
-  count    = (var.create_kms_key && var.bucket_replication_enabled) ? 1 : 0
+  count = (var.create_kms_key && var.bucket_replication_enabled) ? 1 : 0
 
   statement { #Allow access for Root User
     sid       = "Allow access for Root User"
@@ -115,20 +115,20 @@ data "aws_iam_policy_document" "secondary" {
   }
 
   dynamic "statement" {
-    for_each = var.bucket_replication_enabled  == true ? [1] : []
+    for_each = var.bucket_replication_enabled == true ? [1] : []
     content {
-    sid       = "Allow access for replication role"
-    effect    = "Allow"
-    resources = ["*"]
+      sid       = "Allow access for replication role"
+      effect    = "Allow"
+      resources = ["*"]
 
-    actions = [
-      "kms:GenerateDataKey",
-      "kms:Encrypt"
-    ]
+      actions = [
+        "kms:GenerateDataKey",
+        "kms:Encrypt"
+      ]
 
-    principals {
-      type        = "AWS"
-      identifiers = [aws_iam_role.bucket_replication[0].arn]
+      principals {
+        type        = "AWS"
+        identifiers = [aws_iam_role.bucket_replication[0].arn]
       }
     }
   }

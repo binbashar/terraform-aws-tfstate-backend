@@ -52,8 +52,8 @@ resource "aws_s3_bucket_versioning" "default" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "default" {
-  count = var.bucket_lifecycle_enabled ? 1 : 0
-  provider   = aws.primary
+  count    = var.bucket_lifecycle_enabled ? 1 : 0
+  provider = aws.primary
 
   depends_on = [aws_s3_bucket_versioning.default]
 

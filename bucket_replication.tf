@@ -22,10 +22,10 @@ resource "aws_s3_bucket" "replication_bucket" {
 }
 
 resource "aws_s3_bucket_replication_configuration" "this" {
-count = var.bucket_replication_enabled ? 1 : 0
+  count = var.bucket_replication_enabled ? 1 : 0
 
   bucket = aws_s3_bucket.default.id
-  role = aws_iam_role.bucket_replication[0].arn
+  role   = aws_iam_role.bucket_replication[0].arn
 
   rule {
     id     = "standard_bucket_replication"
@@ -37,9 +37,9 @@ count = var.bucket_replication_enabled ? 1 : 0
       storage_class = "STANDARD"
 
       dynamic "encryption_configuration" {
-      for_each = var.create_kms_key ? [1] : []
-      content {
-        replica_kms_key_id = aws_kms_replica_key.secondary[0].arn
+        for_each = var.create_kms_key ? [1] : []
+        content {
+          replica_kms_key_id = aws_kms_replica_key.secondary[0].arn
         }
       }
     }
@@ -63,7 +63,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "replication_bucke
   rule {
     apply_server_side_encryption_by_default {
       kms_master_key_id = var.create_kms_key ? aws_kms_key.primary[0].id : null
-      sse_algorithm = var.create_kms_key ? "aws:kms" : "AES256"
+      sse_algorithm     = var.create_kms_key ? "aws:kms" : "AES256"
     }
   }
 }
@@ -80,7 +80,7 @@ resource "aws_s3_bucket_versioning" "replication_bucket" {
 
 
 resource "aws_s3_bucket_lifecycle_configuration" "replication_bucket" {
-  count = (var.bucket_replication_enabled && var.bucket_lifecycle_enabled) ? 1 : 0
+  count      = (var.bucket_replication_enabled && var.bucket_lifecycle_enabled) ? 1 : 0
   provider   = aws.secondary
   depends_on = [aws_s3_bucket_versioning.replication_bucket]
 
@@ -178,11 +178,11 @@ data "aws_iam_policy_document" "bucket_replication" {
   }
 
   dynamic "statement" {
-    for_each = var.create_kms_key  == true ? [1] : []
+    for_each = var.create_kms_key == true ? [1] : []
     content {
-      sid    = "4"
-      effect = "Allow"
-      resources = [aws_kms_key.primary[0].arn,]
+      sid       = "4"
+      effect    = "Allow"
+      resources = [aws_kms_key.primary[0].arn, ]
 
       actions = [
         "kms:Decrypt",
@@ -192,10 +192,10 @@ data "aws_iam_policy_document" "bucket_replication" {
   }
 
   dynamic "statement" {
-    for_each = var.create_kms_key  == true ? [1] : []
+    for_each = var.create_kms_key == true ? [1] : []
     content {
-      sid    = "5"
-      effect = "Allow"
+      sid       = "5"
+      effect    = "Allow"
       resources = [aws_kms_replica_key.secondary[0].arn]
 
       actions = [

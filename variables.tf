@@ -181,6 +181,12 @@ variable "logging" {
   description = "Bucket access logging configuration."
 }
 
+variable "noncurrent_versions_to_keep" {
+  type = number
+  description = "Number of noncurrent versions of the state file to keep."
+  default = 5
+}
+
 #
 # Example:
 #  {

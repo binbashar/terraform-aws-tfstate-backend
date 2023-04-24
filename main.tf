@@ -67,6 +67,21 @@ resource "aws_s3_bucket_versioning" "default" {
   mfa = var.mfa_delete ? "${var.mfa_serial} ${var.mfa_secret}" : null
 }
 
+resource "aws_s3_bucket_lifecycle_configuration" "default" {
+  provider = aws.primary
+  bucket   = aws_s3_bucket.default.id
+
+  rule {
+    id = "keep-only-some-noncurrent-versions"
+
+    noncurrent_version_expiration {
+      newer_noncurrent_versions = var.noncurrent_versions_to_keep
+    }
+  }
+
+  depends_on = [aws_s3_bucket_versioning.default]
+}
+
 resource "aws_s3_bucket_public_access_block" "default" {
   provider                = aws.primary
   bucket                  = aws_s3_bucket.default.id

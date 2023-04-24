@@ -72,7 +72,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "default" {
   bucket   = aws_s3_bucket.default.id
 
   rule {
-    id = "keep-only-some-noncurrent-versions"
+    id     = "keep-only-some-noncurrent-versions"
+    status = "Enabled"
 
     noncurrent_version_expiration {
       newer_noncurrent_versions = var.noncurrent_versions_to_keep

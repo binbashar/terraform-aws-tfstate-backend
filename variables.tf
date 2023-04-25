@@ -187,6 +187,12 @@ variable "noncurrent_versions_to_keep" {
   default = 5
 }
 
+variable "noncurrent_days_to_keep" {
+  type = number
+  description = "Number of days before noncurrent versions set to expire are deleted."
+  default = 5
+}
+
 #
 # Example:
 #  {

@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.26"></a>
+## [v1.0.26] - 2023-05-11
+
+- Feature | add security scan
+
+
 <a name="v1.0.25"></a>
 ## [v1.0.25] - 2023-04-12
 
@@ -250,7 +256,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.25...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.26...HEAD
+[v1.0.26]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.25...v1.0.26
 [v1.0.25]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.24...v1.0.25
 [v1.0.24]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.23...v1.0.24
 [v1.0.23]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.22...v1.0.23

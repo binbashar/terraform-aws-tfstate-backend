@@ -16,6 +16,24 @@ variable "stage" {
   description = "Stage, e.g. 'prod', 'staging', 'dev', OR 'source', 'build', 'test', 'deploy', 'release'"
 }
 
+variable "create_kms_key" {
+  type        = bool
+  default     = true
+  description = "Whether to create a KMS key"
+}
+
+variable "kms_key_deletion_windows" {
+  type        = number
+  default     = 7
+  description = "The number of days after which the KMS key is deleted after destruction of the resource, must be between 7 and 30 days"
+}
+
+variable "kms_key_rotation" {
+  type        = bool
+  default     = true
+  description = "Specifies whether key rotation is enabled"
+}
+
 variable "name" {
   type        = string
   default     = "terraform"
@@ -106,28 +124,58 @@ variable "enable_server_side_encryption" {
   default     = true
 }
 
+variable "enable_point_in_time_recovery" {
+  type        = bool
+  description = "Enable DynamoDB point in time recovery"
+  default     = true
+}
+
+variable "billing_mode" {
+  type        = string
+  description = "DynamoDB billing mode. Can be PROVISIONED or PAY_PER_REQUEST"
+  default     = "PAY_PER_REQUEST"
+}
+
 variable "block_public_acls" {
   type        = bool
   description = "Whether Amazon S3 should block public ACLs for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "ignore_public_acls" {
   type        = bool
   description = "Whether Amazon S3 should ignore public ACLs for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "block_public_policy" {
   type        = bool
   description = "Whether Amazon S3 should block public bucket policies for this bucket."
-  default     = false
+  default     = true
 }
 
 variable "restrict_public_buckets" {
   type        = bool
   description = "Whether Amazon S3 should restrict public bucket policies for this bucket."
+  default     = true
+}
+
+variable "notifications_sqs" {
+  type        = bool
+  description = "Wether to enable SQS notifications"
   default     = false
+}
+
+variable "notifications_sns" {
+  type        = bool
+  description = "Whether to enable SNS notifications"
+  default     = true
+}
+
+variable "notifications_events" {
+  type        = list(string)
+  description = "List of events to enable notifications for"
+  default     = ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"]
 }
 
 variable "regex_replace_chars" {
@@ -139,7 +187,7 @@ variable "regex_replace_chars" {
 variable "bucket_replication_enabled" {
   type        = bool
   description = "Enable/Disable replica for S3 bucket (for cross region replication purpose)"
-  default     = false
+  default     = true
 }
 
 variable "bucket_replication_name" {
@@ -181,6 +229,39 @@ variable "logging" {
   description = "Bucket access logging configuration."
 }
 
+variable "replica_logging" {
+  type = object({
+    bucket_name = string
+    prefix      = string
+  })
+  default     = null
+  description = "Bucket access logging configuration."
+}
+
+variable "bucket_lifecycle_enabled" {
+  type        = bool
+  description = "Enable/Disable bucket lifecycle"
+  default     = true
+}
+
+variable "bucket_lifecycle_expiration" {
+  type        = number
+  default     = 90
+  description = "Number of days after which to expunge the objects"
+}
+
+variable "bucket_lifecycle_transition_glacier" {
+  type        = number
+  default     = 60
+  description = "Number of days after which to move the data to the GLACIER storage class"
+}
+
+variable "bucket_lifecycle_transition_standard_ia" {
+  type        = number
+  default     = 30
+  description = "Number of days after which to move the data to the STANDARD_IA storage class"
+}
+
 #
 # Example:
 #  {
@@ -194,4 +275,40 @@ variable "dynamodb_monitoring" {
   type        = any
   description = "DynamoDB monitoring settings."
   default     = {}
+}
+
+variable "backend_config_template_file" {
+  type        = string
+  description = "Path to the template file to use when generating the backend configuration."
+  default     = ""
+}
+
+variable "backend_config_filepath" {
+  type        = string
+  description = "Directory where the backend configuration file should be generated."
+  default     = ""
+}
+
+variable "backend_config_filename" {
+  type        = string
+  description = "Name of the backend configuration file to generate."
+  default     = "backend.tf"
+}
+
+variable "backend_config_profile" {
+  type        = string
+  description = "AWS profile to use when interfacing the backend infrastructure."
+  default     = ""
+}
+
+variable "backend_config_role_arn" {
+  type        = string
+  description = "ARN of the AWS role to assume when interfacing the backend infrastructure, if any."
+  default     = ""
+}
+
+variable "backend_config_state_file" {
+  type        = string
+  description = "Name of the state file in the S3 bucket to use."
+  default     = "terraform.tfstate"
 }

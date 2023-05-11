@@ -4,24 +4,6 @@ resource "aws_s3_bucket" "default" {
   bucket        = format("%s-%s-%s", var.namespace, var.stage, var.name)
   force_destroy = var.force_destroy
 
-  dynamic "replication_configuration" {
-    for_each = var.bucket_replication_enabled ? ["true"] : []
-    content {
-      role = aws_iam_role.bucket_replication[0].arn
-
-      rules {
-        id     = "standard_bucket_replication"
-        prefix = ""
-        status = "Enabled"
-
-        destination {
-          bucket        = aws_s3_bucket.replication_bucket[0].arn
-          storage_class = "STANDARD"
-        }
-      }
-    }
-  }
-
   dynamic "logging" {
     for_each = var.logging == null ? [] : [1]
     content {
@@ -46,11 +28,13 @@ resource "aws_s3_bucket_acl" "default" {
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   provider = aws.primary
-  bucket   = aws_s3_bucket.default.id
+
+  bucket = aws_s3_bucket.default.bucket
 
   rule {
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      kms_master_key_id = var.create_kms_key ? aws_kms_key.primary[0].id : null
+      sse_algorithm     = var.create_kms_key ? "aws:kms" : "AES256"
     }
   }
 }
@@ -65,6 +49,44 @@ resource "aws_s3_bucket_versioning" "default" {
   }
 
   mfa = var.mfa_delete ? "${var.mfa_serial} ${var.mfa_secret}" : null
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "default" {
+  count    = var.bucket_lifecycle_enabled ? 1 : 0
+  provider = aws.primary
+
+  depends_on = [aws_s3_bucket_versioning.default]
+
+  bucket = aws_s3_bucket.default.id
+
+  rule {
+    id = "Noncurrent expiration"
+
+    noncurrent_version_expiration {
+      noncurrent_days = var.bucket_lifecycle_expiration
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = var.bucket_lifecycle_transition_standard_ia
+      storage_class   = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = var.bucket_lifecycle_transition_glacier
+      storage_class   = "GLACIER"
+    }
+
+    status = "Enabled"
+  }
+
+  rule {
+    id = "Abort incomplete multipart uploads"
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+
+    status = "Enabled"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "default" {
@@ -87,12 +109,17 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
 
   provider       = aws.primary
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
-  read_capacity  = var.read_capacity
-  write_capacity = var.write_capacity
+  read_capacity  = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
+  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
+  billing_mode   = var.billing_mode
   hash_key       = "LockID" # https://www.terraform.io/docs/backends/types/s3.html#dynamodb_table
 
   server_side_encryption {
     enabled = true
+  }
+
+  point_in_time_recovery {
+    enabled = var.enable_point_in_time_recovery
   }
 
   lifecycle {
@@ -116,11 +143,17 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
 resource "aws_dynamodb_table" "without_server_side_encryption" {
   count = var.enable_server_side_encryption == "true" ? 0 : 1
 
+  # checkov:skip=CKV_AWS_119:This resource is intended to be used with server side encryption disabled
+
   provider       = aws.primary
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
-  read_capacity  = var.read_capacity
-  write_capacity = var.write_capacity
+  read_capacity  = var.billing_mode == "PROVISIONED" ? var.read_capacity : null
+  write_capacity = var.billing_mode == "PROVISIONED" ? var.write_capacity : null
+  billing_mode   = var.billing_mode
   hash_key       = "LockID"
+  point_in_time_recovery {
+    enabled = var.enable_point_in_time_recovery
+  }
 
   lifecycle {
     ignore_changes = [
@@ -139,7 +172,6 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
     Environment = var.stage
   }
 }
-
 
 locals {
   dynamodb_monitoring_enabled       = try(var.dynamodb_monitoring["enabled"], false)

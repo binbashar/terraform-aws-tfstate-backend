@@ -7,7 +7,11 @@ terraform {
     dynamodb_table = "${dynamodb_table}"
     %{~ endif ~}
     profile        = "${profile}"
-    role_arn       = "${role_arn}"
     encrypt        = "${encrypt}"
+    %{~ if role_arn != "" ~}
+    assume_role {
+      role_arn = "${role_arn}"
+    }
+    %{~ endif ~}
   }
 }

@@ -69,6 +69,25 @@ data "aws_iam_policy_document" "primary" {
       }
     }
   }
+
+  dynamic "statement" {
+    for_each = var.notifications_sns ? [1] : []
+    content {
+      sid       = "Allow access for Key User (S3 Service Principal)"
+      effect    = "Allow"
+      resources = [aws_kms_key.primary[0].arn]
+
+      actions = [
+        "kms:GenerateDataKey*",
+        "kms:Decrypt",
+      ]
+
+      principals {
+        type        = "Service"
+        identifiers = ["s3.amazonaws.com"]
+      }
+    }
+  }
 }
 
 data "aws_iam_policy_document" "secondary" {
@@ -129,6 +148,25 @@ data "aws_iam_policy_document" "secondary" {
       principals {
         type        = "AWS"
         identifiers = [aws_iam_role.bucket_replication[0].arn]
+      }
+    }
+  }
+
+  dynamic "statement" {
+    for_each = var.notifications_sns ? [1] : []
+    content {
+      sid       = "Allow access for Key User (S3 Service Principal)"
+      effect    = "Allow"
+      resources = [aws_kms_key.primary[0].arn]
+
+      actions = [
+        "kms:GenerateDataKey*",
+        "kms:Decrypt",
+      ]
+
+      principals {
+        type        = "Service"
+        identifiers = ["s3.amazonaws.com"]
       }
     }
   }

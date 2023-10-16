@@ -157,7 +157,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   statement {
     sid       = "1"
     effect    = "Allow"
-    resources = ["${aws_s3_bucket.default.arn}"]
+    resources = [aws_s3_bucket.default.arn]
 
     actions = [
       "s3:GetReplicationConfiguration",

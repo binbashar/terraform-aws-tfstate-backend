@@ -7,7 +7,7 @@ resource "aws_s3_bucket" "replication_bucket" {
   ## Since we use the attribute 'count' to create an aws_s3_bucket, checkov has a known issue that results in
   ## an error even though we are using the correct configurations. (Ref https://github.com/bridgecrewio/checkov/issues/3847)
   # checkov:skip=CKV2_AWS_61:Skip due to above comment
-  # checkov:skip=CKV_AWS_145:Skip due to above comment  
+  # checkov:skip=CKV_AWS_145:Skip due to above comment
   # checkov:skip=CKV_AWS_21:Skip due to above comment
   # checkov:skip=CKV2_AWS_6:Skip due to above comment
 

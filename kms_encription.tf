@@ -175,6 +175,8 @@ data "aws_iam_policy_document" "secondary" {
 }
 
 resource "aws_kms_key" "primary" {
+  # checkov:skip=CKV2_AWS_64:Since we use the attribute 'count' to create an aws_kms_key, checkov has a known issue that results in
+  ## an error even though we are using the correct configurations. (Ref https://github.com/bridgecrewio/checkov/issues/3847)
   count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 

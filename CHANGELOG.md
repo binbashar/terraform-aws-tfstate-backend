@@ -7,6 +7,17 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.27"></a>
+## [v1.0.27] - 2023-10-25
+
+- Comment sumologic workflow
+- Disable bucket ACL (Recommended)
+- Remove checkov skip
+- Add skip to checkov validations in replica bucket
+- Enable bucket acl
+- Upgrade AWS provider version to 5.x
+
+
 <a name="v1.0.26"></a>
 ## [v1.0.26] - 2023-05-11
 
@@ -256,7 +267,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.26...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.27...HEAD
+[v1.0.27]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.26...v1.0.27
 [v1.0.26]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.25...v1.0.26
 [v1.0.25]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.24...v1.0.25
 [v1.0.24]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.23...v1.0.24

@@ -20,11 +20,21 @@ resource "aws_s3_bucket" "default" {
   depends_on = [aws_s3_bucket.replication_bucket]
 }
 
-resource "aws_s3_bucket_acl" "default" {
-  provider = aws.primary
-  bucket   = aws_s3_bucket.default.id
-  acl      = var.acl
-}
+# resource "aws_s3_bucket_acl" "default" {
+#   provider = aws.primary
+#   bucket   = aws_s3_bucket.default.id
+#   acl      = var.acl
+
+#   depends_on = [aws_s3_bucket_ownership_controls.default]
+# }
+
+# resource "aws_s3_bucket_ownership_controls" "default" {
+#   # checkov:skip=CKV2_AWS_65: Skip this validation since we use ACL
+#   bucket = aws_s3_bucket.default.id
+#   rule {
+#     object_ownership = "BucketOwnerPreferred"
+#   }
+# }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "default" {
   provider = aws.primary

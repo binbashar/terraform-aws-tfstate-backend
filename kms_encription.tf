@@ -69,6 +69,25 @@ data "aws_iam_policy_document" "primary" {
       }
     }
   }
+
+  dynamic "statement" {
+    for_each = var.notifications_sns ? [1] : []
+    content {
+      sid       = "Allow access for Key User (S3 Service Principal)"
+      effect    = "Allow"
+      resources = [aws_kms_key.primary[0].arn]
+
+      actions = [
+        "kms:GenerateDataKey*",
+        "kms:Decrypt",
+      ]
+
+      principals {
+        type        = "Service"
+        identifiers = ["s3.amazonaws.com"]
+      }
+    }
+  }
 }
 
 data "aws_iam_policy_document" "secondary" {
@@ -133,10 +152,31 @@ data "aws_iam_policy_document" "secondary" {
     }
   }
 
+  dynamic "statement" {
+    for_each = var.notifications_sns ? [1] : []
+    content {
+      sid       = "Allow access for Key User (S3 Service Principal)"
+      effect    = "Allow"
+      resources = [aws_kms_key.primary[0].arn]
+
+      actions = [
+        "kms:GenerateDataKey*",
+        "kms:Decrypt",
+      ]
+
+      principals {
+        type        = "Service"
+        identifiers = ["s3.amazonaws.com"]
+      }
+    }
+  }
+
 
 }
 
 resource "aws_kms_key" "primary" {
+  # checkov:skip=CKV2_AWS_64:Since we use the attribute 'count' to create an aws_kms_key, checkov has a known issue that results in
+  ## an error even though we are using the correct configurations. (Ref https://github.com/bridgecrewio/checkov/issues/3847)
   count    = var.create_kms_key ? 1 : 0
   provider = aws.primary
 

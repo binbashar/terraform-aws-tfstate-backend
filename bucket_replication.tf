@@ -4,6 +4,13 @@ resource "aws_s3_bucket" "replication_bucket" {
   # checkov:skip=CKV2_AWS_62:False Positive. This bucket is the replication destination
   # checkov:skip=CKV_AWS_144:False Positive. This bucket is the replication destination
 
+  ## Since we use the attribute 'count' to create an aws_s3_bucket, checkov has a known issue that results in
+  ## an error even though we are using the correct configurations. (Ref https://github.com/bridgecrewio/checkov/issues/3847)
+  # checkov:skip=CKV2_AWS_61:Skip due to above comment
+  # checkov:skip=CKV_AWS_145:Skip due to above comment
+  # checkov:skip=CKV_AWS_21:Skip due to above comment
+  # checkov:skip=CKV2_AWS_6:Skip due to above comment
+
   provider = aws.secondary
   bucket   = format("%s-%s-%s-%s", var.namespace, var.stage, var.name, var.bucket_replication_name)
 
@@ -157,7 +164,7 @@ data "aws_iam_policy_document" "bucket_replication" {
   statement {
     sid       = "1"
     effect    = "Allow"
-    resources = ["${aws_s3_bucket.default.arn}"]
+    resources = [aws_s3_bucket.default.arn]
 
     actions = [
       "s3:GetReplicationConfiguration",

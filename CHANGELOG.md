@@ -7,6 +7,13 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="v1.0.28"></a>
+## [v1.0.28] - 2024-01-24
+
+- Add checkov Skip
+- refactor: use assume_role block for role_arn
+
+
 <a name="v1.0.27"></a>
 ## [v1.0.27] - 2023-10-25
 
@@ -267,7 +274,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.27...HEAD
+[Unreleased]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.28...HEAD
+[v1.0.28]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.27...v1.0.28
 [v1.0.27]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.26...v1.0.27
 [v1.0.26]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.25...v1.0.26
 [v1.0.25]: https://github.com/binbashar/terraform-tfstate-backend/compare/v1.0.24...v1.0.25

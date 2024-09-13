@@ -54,10 +54,7 @@ variable "attributes" {
 
 variable "tags" {
   type        = map(string)
-  default     = {
-    Terraform   = "true"
-    Environment = var.stage
-  }
+  default     = { Terraform = "true" }
   description = "Additional tags (e.g. `map('BusinessUnit','XYZ')`"
 }
 

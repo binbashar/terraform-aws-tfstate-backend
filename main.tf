@@ -12,10 +12,7 @@ resource "aws_s3_bucket" "default" {
     }
   }
 
-  tags = {
-    Terraform   = "true"
-    Environment = var.stage
-  }
+  tags = var.tags
 
   depends_on = [aws_s3_bucket.replication_bucket]
 }
@@ -144,10 +141,7 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
     type = "S"
   }
 
-  tags = {
-    Terraform   = "true"
-    Environment = var.stage
-  }
+  tags = var.tags
 }
 
 resource "aws_dynamodb_table" "without_server_side_encryption" {
@@ -177,10 +171,7 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
     type = "S"
   }
 
-  tags = {
-    Terraform   = "true"
-    Environment = var.stage
-  }
+  tags = var.tags
 }
 
 locals {

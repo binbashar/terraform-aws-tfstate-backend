@@ -22,10 +22,7 @@ resource "aws_s3_bucket" "replication_bucket" {
     }
   }
 
-  tags = {
-    Terraform   = "true"
-    Environment = var.stage
-  }
+  tags = var.tags
 }
 
 resource "aws_s3_bucket_replication_configuration" "this" {

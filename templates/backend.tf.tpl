@@ -6,6 +6,9 @@ terraform {
     %{~ if dynamodb_table != "" ~}
     dynamodb_table = "${dynamodb_table}"
     %{~ endif ~}
+    %{~ if use_lockfile ~}
+    use_lockfile   = true
+    %{~ endif ~}
     profile        = "${profile}"
     encrypt        = "${encrypt}"
     %{~ if role_arn != "" ~}

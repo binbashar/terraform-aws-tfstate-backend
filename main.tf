@@ -112,7 +112,7 @@ resource "time_sleep" "wait_30_secs" {
 }
 
 resource "aws_dynamodb_table" "with_server_side_encryption" {
-  count = var.enable_server_side_encryption == "true" ? 1 : 0
+  count = var.dynamodb_table_enabled && var.enable_server_side_encryption ? 1 : 0
 
   provider       = aws.primary
   name           = format("%s-%s-%s", var.namespace, var.stage, var.name)
@@ -145,7 +145,7 @@ resource "aws_dynamodb_table" "with_server_side_encryption" {
 }
 
 resource "aws_dynamodb_table" "without_server_side_encryption" {
-  count = var.enable_server_side_encryption == "true" ? 0 : 1
+  count = var.dynamodb_table_enabled && !var.enable_server_side_encryption ? 1 : 0
 
   # checkov:skip=CKV_AWS_119:This resource is intended to be used with server side encryption disabled
 
@@ -175,10 +175,10 @@ resource "aws_dynamodb_table" "without_server_side_encryption" {
 }
 
 locals {
-  dynamodb_monitoring_enabled       = try(var.dynamodb_monitoring["enabled"], false)
+  dynamodb_monitoring_enabled       = var.dynamodb_table_enabled && try(var.dynamodb_monitoring["enabled"], false)
   dynamodb_monitoring_threshold     = try(var.dynamodb_monitoring["threshold"], "1")
   dynamodb_monitoring_alarm_actions = try(var.dynamodb_monitoring["alarm_action_arn"], [])
-  dynamodb_monitoring_table_name    = var.enable_server_side_encryption == "true" ? aws_dynamodb_table.with_server_side_encryption[0].id : aws_dynamodb_table.without_server_side_encryption[0].id
+  dynamodb_monitoring_table_name    = var.enable_server_side_encryption ? try(aws_dynamodb_table.with_server_side_encryption[0].id, null) : try(aws_dynamodb_table.without_server_side_encryption[0].id, null)
 }
 
 resource "aws_cloudwatch_metric_alarm" "dynamodb_capacity" {

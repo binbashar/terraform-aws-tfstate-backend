@@ -130,6 +130,12 @@ variable "enable_point_in_time_recovery" {
   default     = true
 }
 
+variable "dynamodb_table_enabled" {
+  type        = bool
+  description = "Whether to create the DynamoDB state locking table"
+  default     = true
+}
+
 variable "billing_mode" {
   type        = string
   description = "DynamoDB billing mode. Can be PROVISIONED or PAY_PER_REQUEST"
@@ -311,4 +317,10 @@ variable "backend_config_state_file" {
   type        = string
   description = "Name of the state file in the S3 bucket to use."
   default     = "terraform.tfstate"
+}
+
+variable "use_lockfile" {
+  type        = bool
+  description = "Whether to use S3 native state locking in the generated backend configuration"
+  default     = false
 }
